@@ -22,7 +22,7 @@
 #include "Arduino.h"
 
 static inline uint32_t calculate_compare_register(uint32_t us,
-    uint16_t prescaler) {
+						  uint16_t prescaler) {
   return (uint32_t) (((double) us) * 1e-6 *
                      (((double) SystemCoreClock) / ((double) prescaler)));
 }
@@ -133,30 +133,30 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
 
   // prescaler
   switch (prescaler) {
-    case 1:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV1 | TC_CTRLA_ENABLE;
-      break;
-    case 2:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV2 | TC_CTRLA_ENABLE;
-      break;
-    case 4:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV4 | TC_CTRLA_ENABLE;
-      break;
-    case 8:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV8 | TC_CTRLA_ENABLE;
-      break;
-    case 16:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV16 | TC_CTRLA_ENABLE;
-      break;
-    case 64:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV64 | TC_CTRLA_ENABLE;
-      break;
-    case 256:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV256 | TC_CTRLA_ENABLE;
-      break;
-    case 1024:
-      TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV1024 | TC_CTRLA_ENABLE;
-      break;
+  case 1:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV1 | TC_CTRLA_ENABLE;
+    break;
+  case 2:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV2 | TC_CTRLA_ENABLE;
+    break;
+  case 4:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV4 | TC_CTRLA_ENABLE;
+    break;
+  case 8:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV8 | TC_CTRLA_ENABLE;
+    break;
+  case 16:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV16 | TC_CTRLA_ENABLE;
+    break;
+  case 64:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV64 | TC_CTRLA_ENABLE;
+    break;
+  case 256:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV256 | TC_CTRLA_ENABLE;
+    break;
+  case 1024:
+    TC5->COUNT16.CTRLA.reg |= TC_CTRLA_PRESCALER_DIV1024 | TC_CTRLA_ENABLE;
+    break;
   }
 
   // set compare register value
