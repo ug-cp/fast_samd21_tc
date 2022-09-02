@@ -21,7 +21,7 @@ or
 this library tc5timerinterrupt does not interfere with the
 [Ethernet library](https://www.arduino.cc/reference/en/libraries/ethernet/)
 on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
-[MKR ETH Shield](https://docs.arduino.cc/hardware/mkr-eth-shield=.
+[MKR ETH Shield](https://docs.arduino.cc/hardware/mkr-eth-shield).
 
 ## Install
 
