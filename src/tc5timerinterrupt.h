@@ -110,6 +110,8 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
                 // try TC_CTRLA_PRESCALER_DIV1024
                 prescaler = 1024;
                 compare_register = calculate_compare_register(us, prescaler);
+		if (compare_register > UINT16_MAX)
+		  return 3;
               }
             }
           }
@@ -117,8 +119,6 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
       }
     }
   }
-  if (compare_register > UINT16_MAX)
-    return 3;
 
   // select clock generator TC5
   GCLK->CLKCTRL.reg = (uint16_t) (GCLK_CLKCTRL_CLKEN |
