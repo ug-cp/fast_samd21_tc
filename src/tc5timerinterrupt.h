@@ -12,52 +12,8 @@
   TC5->COUNT16.INTFLAG.bit.MC0 = 1; // clears the interrupt
   }
 
-  To set up the trigger you only need to configure and to start, e. g.:
+  For more information look at the README.md.
 
-  void setup() {
-  tc5timerinterrupt_configure(8); // 8 us = 8e-6 s
-  tc5timerinterrupt_start();
-  }
-
-  You can stop, start and reconfigure the trigger, e. g.:
-
-  void loop() {
-  tc5timerinterrupt_stop();
-  delay(1000);
-  tc5timerinterrupt_configure(16);
-  tc5timerinterrupt_start();
-  delay(1000);
-  tc5timerinterrupt_disable(16);
-  delay(1000);
-  tc5timerinterrupt_start();
-  delay(1000);
-  }
-
-  The TC5_Handler routine can call different functions. Since a function call
-  needs some time, you have to implement this on your own.
-  But here is an example:
-
-  void blink1(void) {
-  digitalWrite(1, !digitalRead(1));
-  }
-  void blink2(void) {
-  digitalWrite(2, !digitalRead(2));
-  }
-  void (* callback)() = blink1;
-  void TC5_Handler(void) {
-  callback();
-  TC5->COUNT16.INTFLAG.bit.MC0 = 1; // clears the interrupt
-  }
-  void setup() {
-  tc5timerinterrupt_configure(1000000); // 1 s
-  tc5timerinterrupt_start();
-  }
-  void loop() {
-  callback = blink1;
-  delay(1000);
-  callback = blink2;
-  delay(1000);
-  }
 */
 
 static inline uint32_t calculate_compare_register(uint32_t us,
