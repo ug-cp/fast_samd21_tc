@@ -1,13 +1,13 @@
-# tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKRZERO)
+# tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKR Zero)
 
 This library allows using the TC5_Handler routine triggered by
-the TC5 timer on SAMD21 (e. g. Arduino MKRZERO).
+the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
 
 It is possible to trigger very fast (a few microsends, e. g. 8 us = 8e-6 s).
 
 ## Tested
 
-It was tested on SAMD21 (Arduino MKRZERO).
+It was tested on SAMD21 (Arduino MKR Zero).
 
 ## Usage
 

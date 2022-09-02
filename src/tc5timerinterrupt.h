@@ -3,7 +3,7 @@
   Date: 2022-09-01
 
   This header file allows using the TC5_Handler routine triggered by
-  the TC5 timer on SAMD21 (e. g. Arduino MKRZERO).
+  the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
 
   You have to provide the TC5_Handler routine, e. g.:
 
