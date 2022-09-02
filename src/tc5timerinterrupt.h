@@ -24,10 +24,14 @@
   void loop() {
   tc5timerinterrupt_stop();
   delay(1000);
+  tc5timerinterrupt_configure(16);
   tc5timerinterrupt_start();
   delay(1000);
-  tc5timerinterrupt_configure(16);
+  tc5timerinterrupt_disable(16);
   delay(1000);
+  tc5timerinterrupt_start();
+  delay(1000);
+  }
 
   The TC5_Handler routine can call different functions. Since a function call
   needs some time, you have to implement this on your own.
@@ -43,6 +47,10 @@
   void TC5_Handler(void) {
   callback();
   TC5->COUNT16.INTFLAG.bit.MC0 = 1; // clears the interrupt
+  }
+  void setup() {
+  tc5timerinterrupt_configure(1000000); // 1 s
+  tc5timerinterrupt_start();
   }
   void loop() {
   callback = blink1;
