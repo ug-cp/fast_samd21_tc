@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-01
+  Date: 2022-09-02
 
   This header file allows using the TC5_Handler routine triggered by
   the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
@@ -15,6 +15,11 @@
   For more information look at the README.md.
 
 */
+
+#ifndef tc5timerinterrupt_h
+#define tc5timerinterrupt_h
+
+#include "Arduino.h"
 
 static inline uint32_t calculate_compare_register(uint32_t us,
     uint16_t prescaler) {
@@ -170,3 +175,5 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
 
   return 0;
 }
+
+#endif /* tc5timerinterrupt_h */
