@@ -12,7 +12,7 @@ license: BSD 3-Clause License
 This library allows using the TC5_Handler routine triggered by
 the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
 
-It is possible to trigger very fast (a few microseconds, e. g. 8 us = 8e-6 s).
+It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
 
 In contrast to
 [SAMD_TimerInterrupt](https://www.arduino.cc/reference/en/libraries/samd_timerinterrupt/)
