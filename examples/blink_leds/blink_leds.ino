@@ -44,6 +44,6 @@ void loop() {
   delay(3000);
   tc5timerinterrupt_disable();
   delay(3000);
-  tc5timerinterrupt_start()
+  tc5timerinterrupt_start();
   delay(3000);
 }
