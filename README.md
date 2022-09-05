@@ -110,7 +110,8 @@ void loop() {
 
 ## Tested
 
-It was tested on SAMD21 (Arduino MKR Zero).
+It was tested on SAMD21 (Arduino MKR1000, Arduino MKR Zero and
+Arduino MKR WiFi 1010).
 But should work on other Arduino MKR or SAMD21 boards as well.
 
 Fast switching a pin
