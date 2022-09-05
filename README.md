@@ -10,7 +10,8 @@ license: BSD 3-Clause License
 # fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 
 This library allows using the TC5_Handler or the TC3_Handler routine
-triggered by the TC5 or TC3 timer on SAMD21 (e. g. Arduino MKRZERO).
+triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
+(e. g. Arduino MKRZERO). The SAMD21 is also called SAM D21.
 
 It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
 
@@ -45,6 +46,7 @@ Or you can include the TC5 specific part `#include <tc5timerinterrupt.h>` or
 the TC3 specific part `#include <tc3timerinterrupt.h>`.
 
 We will use here only the TC5 specific part `#include <tc5timerinterrupt.h>`.
+For TC3 or all look at the [examples](examples).
 
 You have to provide the TC5_Handler routine, e. g.:
 
@@ -58,13 +60,14 @@ void TC5_Handler(void) {
 To set up the trigger you only need to configure and to start, e. g.:
 
 ```c
+#include <tc5timerinterrupt.h>
 void setup() {
   tc5timerinterrupt_configure(8); // 8 us = 8e-6 s
   tc5timerinterrupt_start();
 }
 ```
 
-You can stop, start and reconfigure the trigger, e. g.:
+You can stop, start, disable and reconfigure the trigger, e. g.:
 
 ```c
 void loop() {
@@ -73,9 +76,11 @@ void loop() {
   tc5timerinterrupt_configure(16);
   tc5timerinterrupt_start();
   delay(1000);
-  tc5timerinterrupt_disable(16);
+  tc5timerinterrupt_disable();
   delay(1000);
   tc5timerinterrupt_start();
+  delay(1000);
+  tc5timerinterrupt_configure(32);
   delay(1000);
 }
 ```
@@ -85,6 +90,7 @@ needs some time, you have to implement this on your own.
 But here is an example:
 
 ```c
+#include <tc5timerinterrupt.h>
 void blink1(void) {
   digitalWrite(1, !digitalRead(1));
 }
