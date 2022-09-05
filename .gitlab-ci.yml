@@ -4,6 +4,7 @@ variables:
 
 stages:
   - check_coding_style
+  - test
   - deploy
 
 arduino-lint:
@@ -19,3 +20,15 @@ arduino-lint:
     - ~/bin/arduino-lint --version
     - ~/bin/arduino-lint --compliance strict --library-manager submit
     #- ~/bin/arduino-lint --compliance strict --library-manager update
+
+arduino_ci:
+  stage: test
+  image:
+    # https://hub.docker.com/_/debian
+    name: debian:latest
+  script:
+    - date
+    - apt-get update
+    - $APT_GET_INSTALL ruby build-essential
+    - gem install arduino_ci
+    - arduino_ci.rb --skip-unittests
