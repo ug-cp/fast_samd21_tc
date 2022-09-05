@@ -1,7 +1,7 @@
 ---
 title: tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKR Zero)
 author: Daniel Mohr
-date: 2022-09-02
+date: 2022-09-05
 license: BSD 3-Clause License
 ---
 
@@ -12,7 +12,7 @@ license: BSD 3-Clause License
 This library allows using the TC5_Handler routine triggered by
 the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
 
-It is possible to trigger very fast (a few microsends, e. g. 8 us = 8e-6 s).
+It is possible to trigger very fast (a few microseconds, e. g. 8 us = 8e-6 s).
 
 In contrast to
 [SAMD_TimerInterrupt](https://www.arduino.cc/reference/en/libraries/samd_timerinterrupt/)
@@ -25,7 +25,12 @@ on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
 
 ## Install
 
-To install this library just copy the content to your arduino libraries, e. g.:
+To install this library use `Add .ZIP Library ...` in your Arduino library
+to add the zip archive `tc5timerinterrupt-master.zip` you can download from
+this repository.
+
+
+Or just copy the content of this repository to your Arduino libraries, e. g.:
 
 ```shell
 unzip -d ~/Arduino/libraries/ ~/Downloads/tc5timerinterrupt-master.zip
@@ -101,18 +106,22 @@ void loop() {
 It was tested on SAMD21 (Arduino MKR Zero).
 But should work on other Arduino MKR or SAMD21 boards as well.
 
-Fast switching a pin and measure the period T with an oscilloscope gives
-something like (values in 1 us = 1e-6 s):
+Fast switching a pin (using [blink_led.ino](examples/blink_led/blink_led.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
 
 | set interval | expected T | mean T | min. T | max. T | std T | 
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 4 | 8 | 16.18 | 16.06 | 16.74 | 0.219 |
-| 8 | 16 | 16.16 | 16.10 | 16.20 | 0.039 |
-| 16 | 32 | 32.02 | 31.96 | 32.08 | 0.009 |
-| 32 | 64 | 64.02 | 64.00 | 64.04 | 0.005 |
-| 64 | 128 | 127.98 | 127.97 | 128.00 | 0.004 |
-| 128 | 256 | 255.95 | 255.95 | 255.95 | 0.0001 |
-| 256 | 512 | 511.91 | 511.82 | 511.91 | 0.023 |
+| 2 | 4 | 8.12 | 8.07 | 8.14 | 0.024 |
+| 4 | 8 | 8.1 | 8.03 | 8.11 | 0.032 |
+| 8 | 16 | 16.07 | 16.03 | 16.15 | 0.049 |
+| 16 | 32 | 32.02 | 31.97 | 32.17 | 0.011 |
+| 32 | 64 | 64.02 | 64.00 | 64.04 | 0.035 |
+| 64 | 128 | 128.01 | 127.35 | 128.06 | 0.090 |
+| 128 | 256 | 256.05 | 255.95 | 256.05 | 0.0023 |
+| 256 | 512 | 511.9 | 511.80 | 512.00 | 0.144 |
+
+So, we can really fast blink with a period of 8 us = 8e-6 s (125 kHz).
 
 ## Examples
 
