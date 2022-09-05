@@ -131,6 +131,7 @@ and measure the period T with an oscilloscope gives something like
 | 256 | 512 | 511.9 | 511.80 | 512.00 | 0.144 |
 
 So, we can really fast blink with a period of 8 us = 8e-6 s (125 kHz).
+This is an interrupt every 4 us = 4e-6 s (250 kHz).
 
 Fast switching a pin
 (using [blink_led_tc3.ino](examples/blink_led_tc3/blink_led_tc3.ino))
