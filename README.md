@@ -7,10 +7,10 @@ license: BSD 3-Clause License
 
 [[_TOC_]]
 
-# tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKR Zero)
+# fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 
-This library allows using the TC5_Handler routine triggered by
-the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
+This library allows using the TC5_Handler or the TC3_Handler routine
+triggered by the TC5 or TC3 timer on SAMD21 (e. g. Arduino MKRZERO).
 
 It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
 
@@ -18,7 +18,7 @@ In contrast to
 [SAMD_TimerInterrupt](https://www.arduino.cc/reference/en/libraries/samd_timerinterrupt/)
 or
 [TimerInterrupt_Generic](https://www.arduino.cc/reference/en/libraries/timerinterrupt_generic/)
-this library tc5timerinterrupt does not interfere with the
+this library fast_samd21_tc does not interfere with the
 [Ethernet library](https://www.arduino.cc/reference/en/libraries/ethernet/)
 on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
 [MKR ETH Shield](https://docs.arduino.cc/hardware/mkr-eth-shield).
@@ -26,18 +26,25 @@ on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
 ## Install
 
 To install this library use `Add .ZIP Library ...` in your Arduino library
-to add the zip archive `tc5timerinterrupt-master.zip` you can download from
+to add the zip archive `fast_samd21_tc-master.zip` you can download from
 this repository.
 
 
 Or just copy the content of this repository to your Arduino libraries, e. g.:
 
 ```shell
-unzip -d ~/Arduino/libraries/ ~/Downloads/tc5timerinterrupt-master.zip
-mv ~/Arduino/libraries/tc5timerinterrupt-master ~/Arduino/libraries/tc5timerinterrupt
+unzip -d ~/Arduino/libraries/ ~/Downloads/fast_samd21_tc-master.zip
+mv ~/Arduino/libraries/fast_samd21_tc-master ~/Arduino/libraries/fast_samd21_tc
 ```
 
 ## Usage
+
+You can include the whole library `#include <fast_samd21_tc.h>` and choose
+what you use.
+Or you can include the TC5 specific part `#include <tc5timerinterrupt.h>` or
+the TC3 specific part `#include <tc3timerinterrupt.h>`.
+
+We will use here only the TC5 specific part `#include <tc5timerinterrupt.h>`.
 
 You have to provide the TC5_Handler routine, e. g.:
 
@@ -106,7 +113,8 @@ void loop() {
 It was tested on SAMD21 (Arduino MKR Zero).
 But should work on other Arduino MKR or SAMD21 boards as well.
 
-Fast switching a pin (using [blink_led.ino](examples/blink_led/blink_led.ino))
+Fast switching a pin
+(using [blink_led_tc5.ino](examples/blink_led_tc5/blink_led_tc5.ino))
 and measure the period T with an oscilloscope gives something like
 (values in 1 us = 1e-6 s):
 
@@ -122,6 +130,23 @@ and measure the period T with an oscilloscope gives something like
 | 256 | 512 | 511.9 | 511.80 | 512.00 | 0.144 |
 
 So, we can really fast blink with a period of 8 us = 8e-6 s (125 kHz).
+
+Fast switching a pin
+(using [blink_led_tc3.ino](examples/blink_led_tc3/blink_led_tc3.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T | 
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 4 | 8 | 8.73 | 8.66 | 8.78 | 0.032 |
+| 8 | 16 | 16.69 | 16.66 | 16.91 | 0.063 |
+| 16 | 32 | 32.65 | 32.65 | 32.79 | 0.015 |
+| 32 | 64 | 64.67 | 64.65 | 64.67 | 0.013 |
+| 64 | 128 | 128.65 | 128.64 | 128.68 | 0.008 |
+| 128 | 256 | 256.52 | 256.45 | 256.55 | 0.043 |
+| 256 | 512 | 512.64 | 512.50 | 512.70 | 0.153 |
+
+Sorry, I do not know why this measurement is not as good as for TC5.
 
 ## Examples
 
