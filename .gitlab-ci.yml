@@ -1,0 +1,22 @@
+variables:
+  DEBIAN_FRONTEND: noninteractive
+  APT_GET_INSTALL: "apt-get install --no-install-recommends -q -y"
+
+stages:
+  - check_coding_style
+  - deploy
+
+arduino-lint:
+  stage: check_coding_style
+  image:
+    # https://hub.docker.com/_/debian
+    name: debian:latest
+  script:
+    - date
+    - apt-get update
+    - $APT_GET_INSTALL curl
+    - (cd && curl -fsSL https://raw.githubusercontent.com/arduino/arduino-lint/main/etc/install.sh | sh)
+    - ~/bin/arduino-lint --version
+    - ~/bin/arduino-lint --library-manager submit
+    #- ~/bin/arduino-lint --compliance strict --library-manager submit
+    #- ~/bin/arduino-lint --compliance strict --library-manager update
