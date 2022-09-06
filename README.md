@@ -1,8 +1,10 @@
 ---
 title: tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKR Zero)
 author: Daniel Mohr
-date: 2022-09-05
+date: 2022-09-06
 license: BSD 3-Clause License
+home: https://gitlab.com/ug-cp/fast_samd21_tc
+mirror: https://github.com/ug-cp/fast_samd21_tc
 ---
 
 [[_TOC_]]
