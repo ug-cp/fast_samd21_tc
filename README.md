@@ -1,10 +1,10 @@
 ---
-title: tc5timerinterrupt -- TC5 timer library for SAMD21 (e. g. Arduino MKR Zero)
+title: fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 author: Daniel Mohr
 date: 2022-09-06
 license: BSD 3-Clause License
-home: https://gitlab.com/ug-cp/fast_samd21_tc
-mirror: https://github.com/ug-cp/fast_samd21_tc
+home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
+mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
 ---
 
 [[_TOC_]]
@@ -16,6 +16,9 @@ triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
 (e. g. Arduino MKRZERO). The SAMD21 is also called SAM D21.
 
 It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
+
+home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
+mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
 
 In contrast to
 [SAMD_TimerInterrupt](https://www.arduino.cc/reference/en/libraries/samd_timerinterrupt/)
