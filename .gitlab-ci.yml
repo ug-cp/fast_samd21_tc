@@ -24,8 +24,8 @@ arduino-lint:
 arduino_ci:
   stage: test
   image:
-    # https://hub.docker.com/_/debian
-    name: debian:latest
+    # https://hub.docker.com/_/ubuntu
+    name: ubuntu:18.04
   script:
     - date
     - apt-get update
