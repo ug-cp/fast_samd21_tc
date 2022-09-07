@@ -66,4 +66,4 @@ deploy_to_repo:
     - mv $github_deploy_key ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     - repopath=$(mktemp -d)
     - git clone --bare --mirror ${CI_REPOSITORY_URL} $repopath
-     - (cd $repopath && git push --prune --mirror $backup_repo)
+    - (cd $repopath && git push --prune --mirror $backup_repo)
