@@ -49,4 +49,4 @@ deploy_to_repos:
     - repopath=$(mktemp -d)
     - git clone --mirror ${CI_REPOSITORY_URL} $repopath
     - (cd $repopath && git push --prune --mirror git@github.com:ug-cp/fast_samd21_tc.git)
-    - (cd $repopath && git push --prune --mirror $backup_repo)
+    - (cd $repopath && git push --force --prune --mirror $backup_repo)
