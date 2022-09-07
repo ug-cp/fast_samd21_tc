@@ -33,7 +33,7 @@ arduino_ci:
     - gem install arduino_ci
     - arduino_ci.rb --skip-unittests
 
-deploy_to_github:
+deploy_to_repos:
   stage: deploy
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -49,3 +49,4 @@ deploy_to_github:
     - repopath=$(mktemp -d)
     - git clone --mirror ${CI_REPOSITORY_URL} $repopath
     - (cd $repopath && git push --prune --mirror git@github.com:ug-cp/fast_samd21_tc.git)
+    - (cd $repopath && git push --prune --mirror $backup_repo)
