@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-05
+  Date: 2022-09-08
 
   This header file allows using the TC3_Handler routine triggered by
   the TC3 timer on SAMD21 (e. g. Arduino MKRZERO).
@@ -15,6 +15,11 @@
   For more information look at the README.md.
 
 */
+
+#ifndef fast_samd21_tc3.h
+#define fast_samd21_tc3.h
+
+#include "Arduino.h"
 
 static inline uint32_t tc3_calculate_compare_register(uint32_t us,
     uint16_t prescaler) {
@@ -171,3 +176,5 @@ uint8_t fast_samd21_tc3_configure(uint32_t us) {
 
   return 0;
 }
+
+#endif /* fast_samd21_tc3.h */
