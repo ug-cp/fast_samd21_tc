@@ -16,8 +16,10 @@
 
 */
 
-#ifndef fast_samd21_tc3.h
-#define fast_samd21_tc3.h
+#ifndef fast_samd21_tc3_h
+#define fast_samd21_tc3_h
+
+#if defined(ARDUINO_ARCH_SAMD)
 
 #include "Arduino.h"
 
@@ -177,4 +179,8 @@ uint8_t fast_samd21_tc3_configure(uint32_t us) {
   return 0;
 }
 
-#endif /* fast_samd21_tc3.h */
+#else
+  #error “This library only supports boards with a SAMD processor.”
+#endif
+
+#endif /* fast_samd21_tc3_h */

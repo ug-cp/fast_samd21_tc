@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-05
+  Date: 2022-09-08
 
   This header file allows using the TC5_Handler routine triggered by
   the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
@@ -16,8 +16,10 @@
 
 */
 
-#ifndef fast_samd21_tc5.h
-#define fast_samd21_tc5.h
+#ifndef fast_samd21_tc5_h
+#define fast_samd21_tc5_h
+
+#if defined(ARDUINO_ARCH_SAMD)
 
 #include "Arduino.h"
 
@@ -176,4 +178,8 @@ uint8_t fast_samd21_tc5_configure(uint32_t us) {
   return 0;
 }
 
-#endif /* fast_samd21_tc5.h */
+#else
+  #error “This library only supports boards with a SAMD processor.”
+#endif
+
+#endif /* fast_samd21_tc5_h */
