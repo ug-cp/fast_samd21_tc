@@ -1,5 +1,5 @@
 /*
-  tc5timerinterrupt example
+  fast_samd21_tc5 example
 
   This example shows how it works together with the Ethernet library.
 
@@ -9,7 +9,7 @@
 
 #include <SPI.h>
 #include <Ethernet.h>
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 
 /* serial interface */
 #define SERIAL_BAUD_RATE 115200 // baud = bits per second
@@ -27,7 +27,7 @@ void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
   Serial.setTimeout(SERIAL_TIMEOUT);
   pinMode(LED_PIN, OUTPUT);
-  tc5timerinterrupt_configure(10); // starts the timer/trigger with 10e-6 s
+  fast_samd21_tc5_configure(10); // starts the timer/trigger with 10e-6 s
 }
 
 void loop() {
@@ -35,15 +35,15 @@ void loop() {
   Serial.print("Ethernet link status: ");
   switch (link) {
     case Unknown:
-      tc5timerinterrupt_disable();
+      fast_samd21_tc5_disable();
       Serial.println("Unknown");
       break;
     case LinkON:
-      tc5timerinterrupt_configure(50000);
+      fast_samd21_tc5_configure(50000);
       Serial.println("ON");
       break;
     case LinkOFF:
-      tc5timerinterrupt_configure(1000000);
+      fast_samd21_tc5_configure(1000000);
       Serial.println("OFF");
       break;
   }
