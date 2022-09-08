@@ -46,7 +46,7 @@ prepare_release:
   script:
     - date
     - cat library.properties
-    - echo -e "EXTRA_DESCRIPTION=\"# $(grep sentence library.properties | cut -d "=" -f 2)\n$(grep paragraph library.properties | cut -d "=" -f 2)\"" > variables.env
+    - echo "EXTRA_DESCRIPTION=$(grep sentence library.properties | cut -d "=" -f 2) $(grep paragraph library.properties | cut -d '=' -f 2)" > variables.env
     - echo "TAG=v$(grep version library.properties | cut -d "=" -f 2)" >> variables.env
     - cat variables.env
   artifacts:
@@ -59,6 +59,8 @@ release_job:
     # https://docs.gitlab.com/ee/user/project/releases/release_cicd_examples.html#create-release-metadata-in-a-custom-script
     registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
+    - job: arduino-lint
+    - job: arduino_ci
     - job: prepare_release
       artifacts: true
   rules:
@@ -81,6 +83,8 @@ deploy_to_github:
   image:
     # https://hub.docker.com/_/alpine
     name: alpine:latest
+  needs:
+    - job: release_job
   script:
     - date
     - apk add --no-cache git openssh
@@ -99,6 +103,8 @@ deploy_to_repo:
   image:
     # https://hub.docker.com/_/alpine
     name: alpine:latest
+  needs:
+    - job: release_job
   script:
     - date
     - apk add --no-cache git
