@@ -46,7 +46,7 @@ prepare_release:
   script:
     - date
     - cat library.properties
-    - echo "EXTRA_DESCRIPTION=$(grep sentence library.properties | cut -d "=" -f 2)" >> variables.env
+    - echo -e "EXTRA_DESCRIPTION=\"# $(grep sentence library.properties | cut -d "=" -f 2)\n$(grep paragraph library.properties | cut -d "=" -f 2)\"" > variables.env
     - echo "TAG=v$(grep version library.properties | cut -d "=" -f 2)" >> variables.env
     - cat variables.env
   artifacts:
