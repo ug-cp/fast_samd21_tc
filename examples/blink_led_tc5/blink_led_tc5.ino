@@ -1,5 +1,5 @@
 /*
-  tc5timerinterrupt example
+  fast_samd21_tc5 example
 
   This is a basic example. It blinks one LED/pin.
 
@@ -7,7 +7,7 @@
   Date: 2022-09-02
 */
 
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 
 #define LED_PIN 0
 
@@ -18,7 +18,7 @@ void TC5_Handler(void) {
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
-  tc5timerinterrupt_configure(100000); // starts the timer/trigger with 0.1 s
+  fast_samd21_tc5_configure(100000); // starts the timer/trigger with 0.1 s
 }
 
 void loop() {

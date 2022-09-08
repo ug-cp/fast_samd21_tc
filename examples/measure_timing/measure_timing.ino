@@ -1,5 +1,5 @@
 /*
-  tc5timerinterrupt example
+  fast_samd21_tc5 example
 
   This examples uses micros() to measure the timing.
   If you have a small TC5_Handler routine, you can also use a timer
@@ -11,7 +11,7 @@
   Date: 2022-09-02
 */
 
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 
 /* serial interface */
 #define SERIAL_BAUD_RATE 115200 // baud = bits per second
@@ -36,13 +36,13 @@ void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
   Serial.setTimeout(SERIAL_TIMEOUT);
   pinMode(LED_PIN, OUTPUT);
-  tc5timerinterrupt_configure(100000); // starts the timer/trigger with 0.1 s
+  fast_samd21_tc5_configure(100000); // starts the timer/trigger with 0.1 s
 }
 
 void loop() {
   Serial.println("\nloop starts");
   static unsigned long mtime;
-  tc5timerinterrupt_configure(100000); // starts the timer/trigger with 100 ms
+  fast_samd21_tc5_configure(100000); // starts the timer/trigger with 100 ms
   Serial.println("timer runs with 100 ms");
   for (unsigned short i = 0; i < 10; i++) {
     delay(1000);
@@ -52,7 +52,7 @@ void loop() {
     Serial.print(" microstime_delta: ");
     Serial.println(microstime_delta);
   }
-  tc5timerinterrupt_configure(10000); // starts the timer/trigger with 10 ms
+  fast_samd21_tc5_configure(10000); // starts the timer/trigger with 10 ms
   Serial.println("timer runs with 10 ms");
   for (unsigned short i = 0; i < 10; i++) {
     delay(100);
@@ -62,7 +62,7 @@ void loop() {
     Serial.print(" microstime_delta: ");
     Serial.println(microstime_delta);
   }
-  tc5timerinterrupt_configure(1000); // starts the timer/trigger with 1 ms
+  fast_samd21_tc5_configure(1000); // starts the timer/trigger with 1 ms
   Serial.println("timer runs with 1 ms");
   for (unsigned short i = 0; i < 10; i++) {
     delay(10);
@@ -72,7 +72,7 @@ void loop() {
     Serial.print(" microstime_delta: ");
     Serial.println(microstime_delta);
   }
-  tc5timerinterrupt_configure(100); // starts the timer/trigger with 100 us
+  fast_samd21_tc5_configure(100); // starts the timer/trigger with 100 us
   Serial.println("timer runs with 100 us");
   for (unsigned short i = 0; i < 10; i++) {
     delay(10);
@@ -82,7 +82,7 @@ void loop() {
     Serial.print(" microstime_delta: ");
     Serial.println(microstime_delta);
   }
-  tc5timerinterrupt_configure(10); // starts the timer/trigger with 10 us
+  fast_samd21_tc5_configure(10); // starts the timer/trigger with 10 us
   Serial.println("timer runs with 10 us");
   for (unsigned short i = 0; i < 10; i++) {
     delay(10);

@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-05
+  Date: 2022-09-08
 
   This header file allows using the TC5_Handler routine triggered by
   the TC5 timer on SAMD21 (e. g. Arduino MKR Zero).
@@ -16,8 +16,10 @@
 
 */
 
-#ifndef tc5timerinterrupt_h
-#define tc5timerinterrupt_h
+#ifndef fast_samd21_tc5_h
+#define fast_samd21_tc5_h
+
+#if defined(ARDUINO_ARCH_SAMD)
 
 #include "Arduino.h"
 
@@ -27,7 +29,7 @@ static inline uint32_t tc5_calculate_compare_register(uint32_t us,
                      (((double) SystemCoreClock) / ((double) prescaler)));
 }
 
-static void tc5timerinterrupt_reset() {
+static void fast_samd21_tc5_reset() {
   TC5->COUNT16.CTRLA.reg = TC_CTRLA_SWRST;
   while (TC5->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
   while (TC5->COUNT16.CTRLA.bit.SWRST);
@@ -36,7 +38,7 @@ static void tc5timerinterrupt_reset() {
 /*
   Starts the timer.
 */
-void tc5timerinterrupt_start() {
+void fast_samd21_tc5_start() {
   TC5->COUNT16.CTRLA.reg |= TC_CTRLA_ENABLE;
   while (TC5->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 }
@@ -44,17 +46,17 @@ void tc5timerinterrupt_start() {
 /*
   Pauses the timer.
 */
-void tc5timerinterrupt_disable() {
+void fast_samd21_tc5_disable() {
   TC5->COUNT16.CTRLA.reg &= ~TC_CTRLA_ENABLE;
   while (TC5->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 }
 
 /*
-  Stops the timer. You should start with tc5timerinterrupt_configure again.
+  Stops the timer. You should start with fast_samd21_tc5_configure again.
 */
-void tc5timerinterrupt_stop() {
-  tc5timerinterrupt_disable();
-  tc5timerinterrupt_reset();
+void fast_samd21_tc5_stop() {
+  fast_samd21_tc5_disable();
+  fast_samd21_tc5_reset();
 }
 
 /*
@@ -73,7 +75,7 @@ void tc5timerinterrupt_stop() {
   2: us > 1398090 and this is too large
   3: no combination of prescaler and compare register value found
 */
-uint8_t tc5timerinterrupt_configure(uint32_t us) {
+uint8_t fast_samd21_tc5_configure(uint32_t us) {
   if (us == 0)
     return 1;
   if (us > 1398090)
@@ -126,7 +128,7 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
                                   GCLK_CLKCTRL_ID(GCM_TC4_TC5)) ;
   while (GCLK->STATUS.bit.SYNCBUSY);
 
-  tc5timerinterrupt_reset();
+  fast_samd21_tc5_reset();
 
   // set 16 bit mode and set waveform 'match frequency'
   TC5->COUNT16.CTRLA.reg |= TC_CTRLA_MODE_COUNT16 | TC_CTRLA_WAVEGEN_MFRQ;
@@ -176,4 +178,8 @@ uint8_t tc5timerinterrupt_configure(uint32_t us) {
   return 0;
 }
 
-#endif /* tc5timerinterrupt_h */
+#else
+  #error “This library only supports boards with a SAMD processor.”
+#endif
+
+#endif /* fast_samd21_tc5_h */
