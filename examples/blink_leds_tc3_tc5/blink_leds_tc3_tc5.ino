@@ -1,5 +1,5 @@
 /*
-  tc5timerinterrupt example
+  fast_samd21_tc5 example
 
   3 LEDs/pins a switched on and off by 2 interrupts with frequencies relatively prime.
   Each interrupt handles their own LED/pin. And both handle the third LED/pin.
@@ -30,8 +30,8 @@ void setup() {
   pinMode(LED_PIN1, OUTPUT);
   pinMode(LED_PIN2, OUTPUT);
   pinMode(LED_PIN3, OUTPUT);
-  tc3timerinterrupt_configure(101000); // starts the timer/trigger with 0.101 s
-  tc5timerinterrupt_configure(100000); // starts the timer/trigger with 0.1 s
+  fast_samd21_tc3_configure(101000); // starts the timer/trigger with 0.101 s
+  fast_samd21_tc5_configure(100000); // starts the timer/trigger with 0.1 s
 }
 
 void loop() {

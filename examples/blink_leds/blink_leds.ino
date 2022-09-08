@@ -1,5 +1,5 @@
 /*
-  tc5timerinterrupt example
+  fast_samd21_tc5 example
 
   It blinks one LED/pin for a while and then blinks another one.
   Then is pauses and starts again.
@@ -8,7 +8,7 @@
   Date: 2022-09-02
 */
 
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 
 #define LED_PIN1 0
 #define LED_PIN2 1
@@ -32,7 +32,7 @@ void setup() {
   pinMode(LED_PIN1, OUTPUT);
   pinMode(LED_PIN2, OUTPUT);
   callback = blink1;
-  tc5timerinterrupt_configure(100000); // starts the timer/trigger with 0.1 s
+  fast_samd21_tc5_configure(100000); // starts the timer/trigger with 0.1 s
 }
 
 void loop() {
@@ -42,8 +42,8 @@ void loop() {
   callback = blink2;
   digitalWrite(LED_PIN1, LOW);
   delay(3000);
-  tc5timerinterrupt_disable();
+  fast_samd21_tc5_disable();
   delay(3000);
-  tc5timerinterrupt_start();
+  fast_samd21_tc5_start();
   delay(3000);
 }

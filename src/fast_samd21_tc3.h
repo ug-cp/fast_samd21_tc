@@ -22,7 +22,7 @@ static inline uint32_t tc3_calculate_compare_register(uint32_t us,
                      (((double) SystemCoreClock) / ((double) prescaler)));
 }
 
-static void tc3timerinterrupt_reset() {
+static void fast_samd21_tc3_reset() {
   TC3->COUNT16.CTRLA.reg = TC_CTRLA_SWRST;
   while (TC3->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
   while (TC3->COUNT16.CTRLA.bit.SWRST);
@@ -31,7 +31,7 @@ static void tc3timerinterrupt_reset() {
 /*
   Starts the timer.
 */
-void tc3timerinterrupt_start() {
+void fast_samd21_tc3_start() {
   TC3->COUNT16.CTRLA.reg |= TC_CTRLA_ENABLE;
   while (TC3->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 }
@@ -39,17 +39,17 @@ void tc3timerinterrupt_start() {
 /*
   Pauses the timer.
 */
-void tc3timerinterrupt_disable() {
+void fast_samd21_tc3_disable() {
   TC3->COUNT16.CTRLA.reg &= ~TC_CTRLA_ENABLE;
   while (TC3->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 }
 
 /*
-  Stops the timer. You should start with tc3timerinterrupt_configure again.
+  Stops the timer. You should start with fast_samd21_tc3_configure again.
 */
-void tc3timerinterrupt_stop() {
-  tc3timerinterrupt_disable();
-  tc3timerinterrupt_reset();
+void fast_samd21_tc3_stop() {
+  fast_samd21_tc3_disable();
+  fast_samd21_tc3_reset();
 }
 
 /*
@@ -68,7 +68,7 @@ void tc3timerinterrupt_stop() {
   2: us > 1398090 and this is too large
   3: no combination of prescaler and compare register value found
 */
-uint8_t tc3timerinterrupt_configure(uint32_t us) {
+uint8_t fast_samd21_tc3_configure(uint32_t us) {
   if (us == 0)
     return 1;
   if (us > 1398090)
@@ -121,7 +121,7 @@ uint8_t tc3timerinterrupt_configure(uint32_t us) {
                                   GCLK_CLKCTRL_ID(GCM_TCC2_TC3)) ;
   while (GCLK->STATUS.bit.SYNCBUSY);
 
-  tc3timerinterrupt_reset();
+  fast_samd21_tc3_reset();
 
   // set 16 bit mode and set waveform 'match frequency'
   TC3->COUNT16.CTRLA.reg |= TC_CTRLA_MODE_COUNT16 | TC_CTRLA_WAVEGEN_MFRQ;

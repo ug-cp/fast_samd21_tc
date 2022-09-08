@@ -45,10 +45,10 @@ mv ~/Arduino/libraries/fast_samd21_tc-main ~/Arduino/libraries/fast_samd21_tc
 
 You can include the whole library `#include <fast_samd21_tc.h>` and choose
 what you use.
-Or you can include the TC5 specific part `#include <tc5timerinterrupt.h>` or
-the TC3 specific part `#include <tc3timerinterrupt.h>`.
+Or you can include the TC5 specific part `#include <fast_samd21_tc5.h>` or
+the TC3 specific part `#include <fast_samd21_tc3.h>`.
 
-We will use here only the TC5 specific part `#include <tc5timerinterrupt.h>`.
+We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
 For TC3 or all look at the [examples](examples).
 
 You have to provide the TC5_Handler routine, e. g.:
@@ -63,10 +63,10 @@ void TC5_Handler(void) {
 To set up the trigger you only need to configure and to start, e. g.:
 
 ```c
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 void setup() {
-  tc5timerinterrupt_configure(8); // 8 us = 8e-6 s
-  tc5timerinterrupt_start();
+  fast_samd21_tc5_configure(8); // 8 us = 8e-6 s
+  fast_samd21_tc5_start();
 }
 ```
 
@@ -74,16 +74,16 @@ You can stop, start, disable and reconfigure the trigger, e. g.:
 
 ```c
 void loop() {
-  tc5timerinterrupt_stop();
+  fast_samd21_tc5_stop();
   delay(1000);
-  tc5timerinterrupt_configure(16);
-  tc5timerinterrupt_start();
+  fast_samd21_tc5_configure(16);
+  fast_samd21_tc5_start();
   delay(1000);
-  tc5timerinterrupt_disable();
+  fast_samd21_tc5_disable();
   delay(1000);
-  tc5timerinterrupt_start();
+  fast_samd21_tc5_start();
   delay(1000);
-  tc5timerinterrupt_configure(32);
+  fast_samd21_tc5_configure(32);
   delay(1000);
 }
 ```
@@ -93,7 +93,7 @@ needs some time, you have to implement this on your own.
 But here is an example:
 
 ```c
-#include <tc5timerinterrupt.h>
+#include <fast_samd21_tc5.h>
 void blink1(void) {
   digitalWrite(1, !digitalRead(1));
 }
@@ -106,8 +106,8 @@ void TC5_Handler(void) {
   TC5->COUNT16.INTFLAG.bit.MC0 = 1; // clears the interrupt
 }
 void setup() {
-  tc5timerinterrupt_configure(1000000); // 1 s
-  tc5timerinterrupt_start();
+  fast_samd21_tc5_configure(1000000); // 1 s
+  fast_samd21_tc5_start();
 }
 void loop() {
   callback = blink1;
