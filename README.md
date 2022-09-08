@@ -1,7 +1,7 @@
 ---
 title: fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 author: Daniel Mohr
-date: 2022-09-06
+date: 2022-09-08
 license: BSD 3-Clause License
 ---
 
@@ -30,15 +30,15 @@ on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
 ## Install
 
 To install this library use `Add .ZIP Library ...` in your Arduino library
-to add the zip archive `fast_samd21_tc-master.zip` you can download from
+to add the zip archive `fast_samd21_tc-main.zip` you can download from
 this repository.
 
 
 Or just copy the content of this repository to your Arduino libraries, e. g.:
 
 ```shell
-unzip -d ~/Arduino/libraries/ ~/Downloads/fast_samd21_tc-master.zip
-mv ~/Arduino/libraries/fast_samd21_tc-master ~/Arduino/libraries/fast_samd21_tc
+unzip -d ~/Arduino/libraries/ ~/Downloads/fast_samd21_tc-main.zip
+mv ~/Arduino/libraries/fast_samd21_tc-main ~/Arduino/libraries/fast_samd21_tc
 ```
 
 ## Usage
