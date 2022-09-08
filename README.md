@@ -7,7 +7,7 @@ license: BSD 3-Clause License
 
 [[_TOC_]]
 
-# fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
+# fast_sand21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 
 This library allows using the TC5_Handler or the TC3_Handler routine
 triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
