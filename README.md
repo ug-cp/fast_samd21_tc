@@ -1,13 +1,12 @@
 ---
-title: fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
 author: Daniel Mohr
-date: 2022-09-08
+date: 2022-09-13
 license: BSD 3-Clause License
 ---
 
-[[_TOC_]]
-
 # fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
+
+[[_TOC_]]
 
 This library allows using the TC5_Handler or the TC3_Handler routine
 triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
@@ -17,6 +16,8 @@ It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
 
 * home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
 * mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
+
+* Arduino Library Manager: [arduino.cc/reference/en/libraries/fast_samd21_tc](https://www.arduino.cc/reference/en/libraries/fast_samd21_tc/)
 
 In contrast to
 [SAMD_TimerInterrupt](https://www.arduino.cc/reference/en/libraries/samd_timerinterrupt/)
@@ -29,16 +30,21 @@ on an [Arduino MKR Zero](https://docs.arduino.cc/hardware/mkr-zero) using
 
 ## Install
 
-To install this library use `Add .ZIP Library ...` in your Arduino library
-to add the zip archive `fast_samd21_tc-main.zip` you can download from
-this repository.
+To use/install this library, you can open the Library Manager in the
+Arduino IDE and install it from there. This is the recommended way.
 
+Or if you use [Arduino CLI](https://arduino.github.io/arduino-cli/) the
+recommended way is `arduino-cli lib install fast_samd21_tc`
+
+Or to install this library use `Add .ZIP Library ...` in your Arduino IDE
+to add the zip archive `fast_samd21_tc-main.zip` you can download from
+this repository. Or you can use archives from
+[latest release](https://gitlab.com/ug-cp/fast_samd21_tc/-/releases/permalink/latest).
 
 Or just copy the content of this repository to your Arduino libraries, e. g.:
 
 ```shell
-unzip -d ~/Arduino/libraries/ ~/Downloads/fast_samd21_tc-main.zip
-mv ~/Arduino/libraries/fast_samd21_tc-main ~/Arduino/libraries/fast_samd21_tc
+git clone https://gitlab.com/ug-cp/fast_samd21_tc.git ~/Arduino/libraries/fast_samd21_tc
 ```
 
 ## Usage
@@ -128,7 +134,7 @@ Fast switching a pin
 and measure the period T with an oscilloscope gives something like
 (values in 1 us = 1e-6 s):
 
-| set interval | expected T | mean T | min. T | max. T | std T | 
+| set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | 2 | 4 | 8.12 | 8.07 | 8.14 | 0.024 |
 | 4 | 8 | 8.1 | 8.03 | 8.11 | 0.032 |
@@ -147,7 +153,7 @@ Fast switching a pin
 and measure the period T with an oscilloscope gives something like
 (values in 1 us = 1e-6 s):
 
-| set interval | expected T | mean T | min. T | max. T | std T | 
+| set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | 4 | 8 | 8.73 | 8.66 | 8.78 | 0.032 |
 | 8 | 16 | 16.69 | 16.66 | 16.91 | 0.063 |
@@ -165,7 +171,9 @@ In the folder [examples](examples) you can find some examples.
 
 ## License, Copyright: BSD 3-Clause License
 
-Copyright (c) 2022, Daniel Mohr and University of Greifswald, Institute of Physics, Colloidal (dusty) plasma group
+Copyright (c) 2022, Daniel Mohr and
+                    University of Greifswald, Institute of Physics,
+                    Colloidal (dusty) plasma group
 
 All rights reserved.
 
