@@ -8,6 +8,19 @@ stages:
   - release
   - deploy
 
+pre-commit:
+  stage: check_coding_style
+  image:
+    # https://hub.docker.com/_/alpine
+    name: alpine:latest
+  script:
+    - date
+    # install necessary packages:
+    - apk add --no-cache bash gcc git libc-dev npm py3-pip python3-dev
+    - pip3 install pre-commit
+    - pre-commit --version
+    - pre-commit run --all-files
+
 arduino-lint:
   stage: check_coding_style
   image:
@@ -19,7 +32,6 @@ arduino-lint:
     - $APT_GET_INSTALL curl ca-certificates
     - (cd && curl -fsSL https://raw.githubusercontent.com/arduino/arduino-lint/main/etc/install.sh | sh)
     - ~/bin/arduino-lint --version
-    #- ~/bin/arduino-lint --compliance strict --library-manager submit
     - ~/bin/arduino-lint --compliance strict --library-manager update
 
 arduino_ci:
