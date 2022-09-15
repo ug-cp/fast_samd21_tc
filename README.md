@@ -1,6 +1,6 @@
 ---
 author: Daniel Mohr
-date: 2022-09-13
+date: 2022-09-15
 license: BSD 3-Clause License
 ---
 
@@ -164,6 +164,44 @@ and measure the period T with an oscilloscope gives something like
 | 256 | 512 | 512.64 | 512.50 | 512.70 | 0.153 |
 
 Sorry, I do not know why this measurement is not as good as for TC5.
+
+For faster switching the used `digitalWrite()` and `digitalRead()` are too
+slow. To achieve faster switching we can use the registers directly. This
+is done in the following measurements.
+
+Fast switching a pin (using
+[fast_blink_led_tc3.ino](examples/fast_blink_led_tc3/fast_blink_led_tc3.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | 2 | 2.69 | 2.66 | 2.83 | 0.054 |
+| 2 | 4 | 4.68 | 4.65 | 4.85 | 0.060 |
+| 4 | 8 | 8.67 | 8.65 | 9.02 | 0.097 |
+| 8 | 16 | 16.66 | 16.66 | 16.57 | 0.003 |
+| 16 | 32 | 32.63 | 32.01 | 32.91 | 0.165 |
+| 32 | 64 | 64.64 | 64.46 | 64.66 | 0.014 |
+| 64 | 128 | 128.64 | 128.60 | 128.70 | 0.023 |
+| 128 | 256 | 256.6 | 256.55 | 256.65 | 0.222 |
+| 256 | 512 | 512.45 | 512.45 | 512.63 | 0.033 |
+
+Fast switching a pin (using
+[fast_blink_led_tc5.ino](examples/fast_blink_led_tc5/fast_blink_led_tc5.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | 2 | 4.1 | 4.07 | 4.27 | 0.052 |
+| 2 | 4 | 4.05 | 4.03 | 4.26 | 0.054 |
+| 4 | 8 | 8.06 | 8.03 | 8.34 | 0.084 |
+| 8 | 16 | 16.03 | 16.03 | 16.04 | 0.015 |
+| 16 | 32 | 32.03 | 32.02 | 32.03 | 0.003 |
+| 32 | 64 | 64.0 | 63.98 | 64.01 | 0.008 |
+| 64 | 128 | 127.98 | 127.89 | 128.02 | 0.021 |
+| 128 | 256 | 255.93 | 255.87 | 255.93 | 0.032 |
+| 256 | 512 | 511.89 | 511.74 | 511.91 | 0.047 |
 
 ## Examples
 
