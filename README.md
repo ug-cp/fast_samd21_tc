@@ -8,11 +8,13 @@ license: BSD 3-Clause License
 
 [[_TOC_]]
 
-This library allows using the TC5_Handler or the TC3_Handler routine
-triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
-(e. g. Arduino MKRZERO). The SAMD21 is also called SAM D21.
+This library allows using the TC3_Handler, TC4_Handler and the TC5_Handler
+routine triggered by the Timer/Counter TC3, TC4 or TC5 on SAMD21
+(e. g. Arduino MKRZERO).
 
-It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
+It is possible to trigger very fast (a few microseconds, e. g. 4 us or less).
+
+Keep in mind, TC4 and TC5 are not completely independent.
 
 * home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
 * mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
@@ -51,11 +53,25 @@ git clone https://gitlab.com/ug-cp/fast_samd21_tc.git ~/Arduino/libraries/fast_s
 
 You can include the whole library `#include <fast_samd21_tc.h>` and choose
 what you use.
-Or you can include the TC5 specific part `#include <fast_samd21_tc5.h>` or
-the TC3 specific part `#include <fast_samd21_tc3.h>`.
+
+By defining `fast_samd21_no_tc3` you can skip this part of the library.
+Defining `fast_samd21_no_tc4` or `fast_samd21_no_tc5` skips the
+corresponding part.
+
+Or you can include the TC3 specific part `#include <fast_samd21_tc3.h>`,
+the TC4 specific part `#include <fast_samd21_tc5.h>` or
+the TC5 specific part `#include <fast_samd21_tc5.h>`.
+
+For example instead of `#include <fast_samd21_tc5.h>` you could also use:
+
+```c
+#define fast_samd21_no_tc3
+#define fast_samd21_no_tc4
+#include <fast_samd21_tc.h>
+```
 
 We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
-For TC3 or all look at the [examples](examples).
+For TC3, TC4 or all look at the [examples](examples).
 
 You have to provide the TC5_Handler routine, e. g.:
 
