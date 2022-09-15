@@ -1,5 +1,5 @@
 /*
-  fast_samd21_tc5 example
+  fast_samd21_tc3 example
 
   This is a basic example. It blinks one LED/pin.
 
