@@ -4,7 +4,11 @@
 #include <Arduino.h>
 
 #ifndef SystemCoreClock
+#if defined(ARDUINO_ARCH_SAMD)
+// arduino_ci does not provide platform specific information
+// therefore we have to define it here on our own
 #define SystemCoreClock 48000000
+#endif
 #endif
 
 #include <fast_samd21_tc_calculate_compare_register.h>
