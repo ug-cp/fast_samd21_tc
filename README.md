@@ -1,6 +1,6 @@
 ---
 author: Daniel Mohr
-date: 2022-09-15
+date: 2022-09-19
 license: BSD 3-Clause License
 ---
 
@@ -12,7 +12,9 @@ This library allows using the TC3_Handler, TC4_Handler and the TC5_Handler
 routine triggered by the Timer/Counter TC3, TC4 or TC5 on SAMD21
 (e. g. Arduino MKRZERO).
 
-It is possible to trigger very fast (a few microseconds, e. g. 4 us or less).
+It is possible to trigger very fast (a few microseconds, e. g. 4 us and less,
+depending on the runtime of the handler routine/function).
+You can use fraction numbers as interval (e. g. 2.5 us).
 
 Keep in mind, TC4 and TC5 are not completely independent.
 
@@ -82,13 +84,12 @@ void TC5_Handler(void) {
 }
 ```
 
-To set up the trigger you only need to configure and to start, e. g.:
+To set up the trigger you only need to configure, e. g.:
 
 ```c
 #include <fast_samd21_tc5.h>
 void setup() {
   fast_samd21_tc5_configure(8); // 8 us = 8e-6 s
-  fast_samd21_tc5_start();
 }
 ```
 
@@ -99,7 +100,6 @@ void loop() {
   fast_samd21_tc5_stop();
   delay(1000);
   fast_samd21_tc5_configure(16);
-  fast_samd21_tc5_start();
   delay(1000);
   fast_samd21_tc5_disable();
   delay(1000);
