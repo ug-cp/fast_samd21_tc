@@ -1,6 +1,6 @@
 ---
 author: Daniel Mohr
-date: 2022-09-13
+date: 2022-09-19
 license: BSD 3-Clause License
 ---
 
@@ -8,11 +8,15 @@ license: BSD 3-Clause License
 
 [[_TOC_]]
 
-This library allows using the TC5_Handler or the TC3_Handler routine
-triggered by the Timer/Counter TC5 or the Timer/Counter TC3 on SAMD21
-(e. g. Arduino MKRZERO). The SAMD21 is also called SAM D21.
+This library allows using the TC3_Handler, TC4_Handler and the TC5_Handler
+routine triggered by the Timer/Counter TC3, TC4 or TC5 on SAMD21
+(e. g. Arduino MKRZERO).
 
-It is possible to trigger very fast (a few microseconds, e. g. 4 us = 4e-6 s).
+It is possible to trigger very fast (a few microseconds, e. g. 4 us and less,
+depending on the runtime of the handler routine/function).
+You can use fraction numbers as interval (e. g. 2.5 us).
+
+Keep in mind, TC4 and TC5 are not completely independent.
 
 * home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
 * mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
@@ -51,11 +55,25 @@ git clone https://gitlab.com/ug-cp/fast_samd21_tc.git ~/Arduino/libraries/fast_s
 
 You can include the whole library `#include <fast_samd21_tc.h>` and choose
 what you use.
-Or you can include the TC5 specific part `#include <fast_samd21_tc5.h>` or
-the TC3 specific part `#include <fast_samd21_tc3.h>`.
+
+By defining `fast_samd21_no_tc3` you can skip this part of the library.
+Defining `fast_samd21_no_tc4` or `fast_samd21_no_tc5` skips the
+corresponding part.
+
+Or you can include the TC3 specific part `#include <fast_samd21_tc3.h>`,
+the TC4 specific part `#include <fast_samd21_tc5.h>` or
+the TC5 specific part `#include <fast_samd21_tc5.h>`.
+
+For example instead of `#include <fast_samd21_tc5.h>` you could also use:
+
+```c
+#define fast_samd21_no_tc3
+#define fast_samd21_no_tc4
+#include <fast_samd21_tc.h>
+```
 
 We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
-For TC3 or all look at the [examples](examples).
+For TC3, TC4 or all look at the [examples](examples).
 
 You have to provide the TC5_Handler routine, e. g.:
 
@@ -66,13 +84,12 @@ void TC5_Handler(void) {
 }
 ```
 
-To set up the trigger you only need to configure and to start, e. g.:
+To set up the trigger you only need to configure, e. g.:
 
 ```c
 #include <fast_samd21_tc5.h>
 void setup() {
   fast_samd21_tc5_configure(8); // 8 us = 8e-6 s
-  fast_samd21_tc5_start();
 }
 ```
 
@@ -83,7 +100,6 @@ void loop() {
   fast_samd21_tc5_stop();
   delay(1000);
   fast_samd21_tc5_configure(16);
-  fast_samd21_tc5_start();
   delay(1000);
   fast_samd21_tc5_disable();
   delay(1000);
@@ -164,6 +180,44 @@ and measure the period T with an oscilloscope gives something like
 | 256 | 512 | 512.64 | 512.50 | 512.70 | 0.153 |
 
 Sorry, I do not know why this measurement is not as good as for TC5.
+
+For faster switching the used `digitalWrite()` and `digitalRead()` are too
+slow. To achieve faster switching we can use the registers directly. This
+is done in the following measurements.
+
+Fast switching a pin (using
+[fast_blink_led_tc3.ino](examples/fast_blink_led_tc3/fast_blink_led_tc3.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | 2 | 2.69 | 2.66 | 2.83 | 0.054 |
+| 2 | 4 | 4.68 | 4.65 | 4.85 | 0.060 |
+| 4 | 8 | 8.67 | 8.65 | 9.02 | 0.097 |
+| 8 | 16 | 16.66 | 16.66 | 16.57 | 0.003 |
+| 16 | 32 | 32.63 | 32.01 | 32.91 | 0.165 |
+| 32 | 64 | 64.64 | 64.46 | 64.66 | 0.014 |
+| 64 | 128 | 128.64 | 128.60 | 128.70 | 0.023 |
+| 128 | 256 | 256.6 | 256.55 | 256.65 | 0.222 |
+| 256 | 512 | 512.45 | 512.45 | 512.63 | 0.033 |
+
+Fast switching a pin (using
+[fast_blink_led_tc5.ino](examples/fast_blink_led_tc5/fast_blink_led_tc5.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | 2 | 4.1 | 4.07 | 4.27 | 0.052 |
+| 2 | 4 | 4.05 | 4.03 | 4.26 | 0.054 |
+| 4 | 8 | 8.06 | 8.03 | 8.34 | 0.084 |
+| 8 | 16 | 16.03 | 16.03 | 16.04 | 0.015 |
+| 16 | 32 | 32.03 | 32.02 | 32.03 | 0.003 |
+| 32 | 64 | 64.0 | 63.98 | 64.01 | 0.008 |
+| 64 | 128 | 127.98 | 127.89 | 128.02 | 0.021 |
+| 128 | 256 | 255.93 | 255.87 | 255.93 | 0.032 |
+| 256 | 512 | 511.89 | 511.74 | 511.91 | 0.047 |
 
 ## Examples
 
