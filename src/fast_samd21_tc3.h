@@ -78,53 +78,13 @@ uint8_t fast_samd21_tc3_configure(double us) {
     return 2;
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
-  uint16_t prescaler = 16;
-  uint32_t compare_register =
-    fast_samd21_tc_calculate_compare_register(us, prescaler);
-  if (compare_register > UINT16_MAX) {
-    // try TC_CTRLA_PRESCALER_DIV2
-    prescaler = 2;
-    compare_register =
-      fast_samd21_tc_calculate_compare_register(us, prescaler);
-    if (compare_register > UINT16_MAX) {
-      // try TC_CTRLA_PRESCALER_DIV4
-      prescaler = 4;
-      compare_register =
-	fast_samd21_tc_calculate_compare_register(us, prescaler);
-      if (compare_register > UINT16_MAX) {
-        // try TC_CTRLA_PRESCALER_DIV8
-        prescaler = 8;
-        compare_register =
-	  fast_samd21_tc_calculate_compare_register(us, prescaler);
-        if (compare_register > UINT16_MAX) {
-          // try TC_CTRLA_PRESCALER_DIV16
-          prescaler = 16;
-          compare_register =
-	    fast_samd21_tc_calculate_compare_register(us, prescaler);
-          if (compare_register > UINT16_MAX) {
-            // try TC_CTRLA_PRESCALER_DIV64
-            prescaler = 64;
-            compare_register =
-	      fast_samd21_tc_calculate_compare_register(us, prescaler);
-            if (compare_register > UINT16_MAX) {
-              // try TC_CTRLA_PRESCALER_DIV256
-              prescaler = 256;
-              compare_register =
-		fast_samd21_tc_calculate_compare_register(us, prescaler);
-              if (compare_register > UINT16_MAX) {
-                // try TC_CTRLA_PRESCALER_DIV1024
-                prescaler = 1024;
-                compare_register =
-		  fast_samd21_tc_calculate_compare_register(us, prescaler);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  if (compare_register > UINT16_MAX)
+  uint16_t prescaler;
+  uint32_t compare_register;
+  if (fast_samd21_tc_calculate_compare_register(us,
+						&prescaler,
+						&compare_register) == 3) {
     return 3;
+  }
 
   // select clock generator TC3
   GCLK->CLKCTRL.reg = (uint16_t) (GCLK_CLKCTRL_CLKEN |
