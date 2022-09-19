@@ -21,7 +21,7 @@ const REGTYPE not_trigger_pin_mask = ~trigger_pin_mask;
 uint16_t it = 0;
 unsigned long start_microstime = 0;
 unsigned long stop_microstime = 0;
-unsigned long duration = 0;
+volatile unsigned long duration = 0;
 
 void TC5_Handler(void) {
   *trigger_output_register =
@@ -39,8 +39,6 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   Serial.begin(115200);
   while (!Serial);
-  it = 0;
-  start_microstime = micros();
   fast_samd21_tc5_configure(2); // starts the timer/trigger with 2 us
 }
 

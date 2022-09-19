@@ -8,7 +8,7 @@
   You can do a much more precise measurement using an oscilloscope.
 
   Author: Daniel Mohr
-  Date: 2022-09-02
+  Date: 2022-09-19
 */
 
 #include <fast_samd21_tc5.h>
@@ -19,8 +19,8 @@
 
 #define LED_PIN 0
 
-unsigned long microstime_old = 0;
-unsigned long microstime_delta = 0;
+volatile unsigned long microstime_old = 0;
+volatile unsigned long microstime_delta = 0;
 
 void TC5_Handler(void) {
   digitalWrite(LED_PIN, !digitalRead(LED_PIN));
