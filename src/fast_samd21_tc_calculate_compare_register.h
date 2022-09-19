@@ -10,10 +10,10 @@
 #define fast_samd21_tc_calculate_compare_register_h
 
 static inline uint32_t
-fast_samd21_tc_calculate_compare_register(uint32_t us,
+fast_samd21_tc_calculate_compare_register(double us,
 					  uint16_t prescaler) {
-  return (uint32_t) (((double) us) * 1e-6 *
-                     (((double) SystemCoreClock) / ((double) prescaler)));
+  return (uint32_t) (us * 1e-6 *
+		     (((double) SystemCoreClock) / ((double) prescaler)));
 }
 
 #endif /* fast_samd21_tc_calculate_compare_register_h */

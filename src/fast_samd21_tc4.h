@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-15
+  Date: 2022-09-19
 
   This header file allows using the TC4_Handler routine triggered by
   the TC4 timer on SAMD21 (e. g. Arduino MKR Zero).
@@ -56,7 +56,7 @@ void fast_samd21_tc4_stop() {
 }
 
 /*
-  Configures the timer interrupt.
+  Configures the timer interrupt TC4 on SAMD21.
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
@@ -71,8 +71,8 @@ void fast_samd21_tc4_stop() {
   2: us > 1398090 and this is too large
   3: no combination of prescaler and compare register value found
 */
-uint8_t fast_samd21_tc4_configure(uint32_t us) {
-  if (us == 0)
+uint8_t fast_samd21_tc4_configure(double us) {
+  if (((uint32_t) us) == 0)
     return 1;
   if (us > 1398090)
     return 2;
