@@ -5,7 +5,7 @@
   Further, using micros() we try to get a measurement.
 
   Author: Daniel Mohr
-  Date: 2022-09-14
+  Date: 2022-09-19
 */
 
 #include <fast_samd21_tc5.h>
@@ -18,6 +18,8 @@ volatile REGTYPE *trigger_output_register =
 const REGTYPE trigger_pin_mask = digitalPinToBitMask(LED_PIN);
 const REGTYPE not_trigger_pin_mask = ~trigger_pin_mask;
 
+// storing data here in the stack is faster
+// than storing them using 'static' flag in the function
 uint16_t it = 0;
 unsigned long start_microstime = 0;
 unsigned long stop_microstime = 0;
