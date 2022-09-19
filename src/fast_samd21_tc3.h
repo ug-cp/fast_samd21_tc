@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-08
+  Date: 2022-09-19
 
   This header file allows using the TC3_Handler routine triggered by
   the TC3 timer on SAMD21 (e. g. Arduino MKRZERO).
@@ -23,11 +23,7 @@
 
 #include "Arduino.h"
 
-static inline uint32_t tc3_calculate_compare_register(uint32_t us,
-    uint16_t prescaler) {
-  return (uint32_t) (((double) us) * 1e-6 *
-                     (((double) SystemCoreClock) / ((double) prescaler)));
-}
+#include "fast_samd21_tc_calculate_compare_register.h"
 
 static void fast_samd21_tc3_reset() {
   TC3->COUNT16.CTRLA.reg = TC_CTRLA_SWRST;
@@ -60,7 +56,7 @@ void fast_samd21_tc3_stop() {
 }
 
 /*
-  Configures the timer interrupt.
+  Configures the timer interrupt TC3 on SAMD21.
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
@@ -75,43 +71,51 @@ void fast_samd21_tc3_stop() {
   2: us > 1398090 and this is too large
   3: no combination of prescaler and compare register value found
 */
-uint8_t fast_samd21_tc3_configure(uint32_t us) {
-  if (us == 0)
+uint8_t fast_samd21_tc3_configure(double us) {
+  if (((uint32_t) us) == 0)
     return 1;
   if (us > 1398090)
     return 2;
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t prescaler = 16;
-  uint32_t compare_register = tc3_calculate_compare_register(us, prescaler);
+  uint32_t compare_register =
+    fast_samd21_tc_calculate_compare_register(us, prescaler);
   if (compare_register > UINT16_MAX) {
     // try TC_CTRLA_PRESCALER_DIV2
     prescaler = 2;
-    compare_register = tc3_calculate_compare_register(us, prescaler);
+    compare_register =
+      fast_samd21_tc_calculate_compare_register(us, prescaler);
     if (compare_register > UINT16_MAX) {
       // try TC_CTRLA_PRESCALER_DIV4
       prescaler = 4;
-      compare_register = tc3_calculate_compare_register(us, prescaler);
+      compare_register =
+	fast_samd21_tc_calculate_compare_register(us, prescaler);
       if (compare_register > UINT16_MAX) {
         // try TC_CTRLA_PRESCALER_DIV8
         prescaler = 8;
-        compare_register = tc3_calculate_compare_register(us, prescaler);
+        compare_register =
+	  fast_samd21_tc_calculate_compare_register(us, prescaler);
         if (compare_register > UINT16_MAX) {
           // try TC_CTRLA_PRESCALER_DIV16
           prescaler = 16;
-          compare_register = tc3_calculate_compare_register(us, prescaler);
+          compare_register =
+	    fast_samd21_tc_calculate_compare_register(us, prescaler);
           if (compare_register > UINT16_MAX) {
             // try TC_CTRLA_PRESCALER_DIV64
             prescaler = 64;
-            compare_register = tc3_calculate_compare_register(us, prescaler);
+            compare_register =
+	      fast_samd21_tc_calculate_compare_register(us, prescaler);
             if (compare_register > UINT16_MAX) {
               // try TC_CTRLA_PRESCALER_DIV256
               prescaler = 256;
-              compare_register = tc3_calculate_compare_register(us, prescaler);
+              compare_register =
+		fast_samd21_tc_calculate_compare_register(us, prescaler);
               if (compare_register > UINT16_MAX) {
                 // try TC_CTRLA_PRESCALER_DIV1024
                 prescaler = 1024;
-                compare_register = tc3_calculate_compare_register(us, prescaler);
+                compare_register =
+		  fast_samd21_tc_calculate_compare_register(us, prescaler);
               }
             }
           }
