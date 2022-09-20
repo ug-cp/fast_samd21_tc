@@ -1,6 +1,6 @@
 ---
 author: Daniel Mohr
-date: 2022-09-19
+date: 2022-09-20
 license: BSD 3-Clause License
 ---
 
@@ -201,6 +201,23 @@ and measure the period T with an oscilloscope gives something like
 | 64 | 128 | 128.64 | 128.60 | 128.70 | 0.023 |
 | 128 | 256 | 256.6 | 256.55 | 256.65 | 0.222 |
 | 256 | 512 | 512.45 | 512.45 | 512.63 | 0.033 |
+
+Fast switching a pin (using
+[fast_blink_led_tc4.ino](examples/fast_blink_led_tc4/fast_blink_led_tc4.ino))
+and measure the period T with an oscilloscope gives something like
+(values in 1 us = 1e-6 s):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | 2 | 4.13 | 3.93 | 5.10 | 0.202 |
+| 2 | 4 | 4.04 | 4.03 | 4.04 | 0.004 |
+| 4 | 8 | 8.06 | 8.03 | 8.18 | 0.051 |
+| 8 | 16 | 16.03 | 16.02 | 16.03 | 0.002 |
+| 16 | 32 | 32.02 | 31.95 | 32.03 | 0.011 |
+| 32 | 64 | 64.05 | 64.04 | 64.05 | 0.015 |
+| 64 | 128 | 128 | 127.97 | 128.04 | 0.019 |
+| 128 | 256 | 255.96 | 255.95 | 256.04 | 0.017 |
+| 256 | 512 | 511.92 | 511.91 | 512.08 | 0.028 |
 
 Fast switching a pin (using
 [fast_blink_led_tc5.ino](examples/fast_blink_led_tc5/fast_blink_led_tc5.ino))
