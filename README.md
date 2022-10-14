@@ -164,6 +164,10 @@ and measure the period T with an oscilloscope gives something like
 So, we can really fast blink with a period of 8 us = 8e-6 s (125 kHz).
 This is an interrupt every 4 us = 4e-6 s (250 kHz).
 
+Consider that a 4 us trigger is possible, but  at the edge of feasibility.
+Therefore, if you look very closely, you will find that some trigger events
+are missing.
+
 Fast switching a pin
 (using [blink_led_tc3.ino](examples/blink_led_tc3/blink_led_tc3.ino))
 and measure the period T with an oscilloscope gives something like
