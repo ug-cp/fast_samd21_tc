@@ -37,8 +37,8 @@ arduino-lint:
 arduino_ci:
   stage: test_build
   image:
-    # https://hub.docker.com/_/ubuntu
-    name: ubuntu:18.04
+    # https://hub.docker.com/_/debian
+    name: debian:latest
   script:
     - date
     - apt-get update
@@ -64,6 +64,7 @@ prepare_release:
     - echo "TAG=$(grep version library.properties | cut -d "=" -f 2)" >> variables.env
     - cat variables.env
   artifacts:
+    expire_in: 1 hrs
     reports:
       dotenv: variables.env
 
