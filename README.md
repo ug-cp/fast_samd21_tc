@@ -1,6 +1,7 @@
 ---
 author: Daniel Mohr
-date: 2022-09-20
+date: 2023-01-18
+url: https://gitlab.com/ug-cp/fast_samd21_tc
 license: BSD 3-Clause License
 ---
 
@@ -246,9 +247,9 @@ In the folder [examples](examples) you can find some examples.
 
 ## License, Copyright: BSD 3-Clause License
 
-Copyright (c) 2022, Daniel Mohr and
-                    University of Greifswald, Institute of Physics,
-                    Colloidal (dusty) plasma group
+Copyright (c) 2022, 2023 Daniel Mohr and
+                         University of Greifswald, Institute of Physics,
+                         Colloidal (dusty) plasma group
 
 All rights reserved.
 
