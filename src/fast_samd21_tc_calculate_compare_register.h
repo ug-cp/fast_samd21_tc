@@ -12,7 +12,7 @@
 static inline uint32_t
 _fast_samd21_tc_calculate_compare_register(double us,
 					   uint32_t prescaler) {
-  return (uint32_t) round(us * (SystemCoreClock / prescaler) / 1e6);
+  return (uint32_t) round(us * (SystemCoreClock / prescaler) / 1e6) - 1;
 }
 
 uint8_t fast_samd21_tc_calculate_compare_register(double us,
