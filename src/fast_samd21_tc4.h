@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-19
+  Date: 2023-09-28
 
   This header file allows using the TC4_Handler routine triggered by
   the TC4 timer on SAMD21 (e. g. Arduino MKR Zero).
@@ -60,7 +60,8 @@ void fast_samd21_tc4_stop() {
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
-  us has to be smaller than 1398090: 0 << us <= 1398090
+  us has to be less than or equal to 1398111: 0 << us <= 1398111
+  Due to timer resolution you will not get 1398111 but 1398101.
 
   You can just reconfigure by call this routine again.
 
@@ -68,18 +69,21 @@ void fast_samd21_tc4_stop() {
 
   0: no error
   1: us == 0 and this is too small
-  2: us > 1398090 and this is too large
+  2: us > 1398111 and this is too large
   3: no combination of prescaler and compare register value found
+  4: us < 0, but us cannot be negative
 */
 uint8_t fast_samd21_tc4_configure(double us) {
   if (((uint32_t) us) == 0)
     return 1;
-  if (us > 1398090)
+  if (us > 1398111)
     return 2;
+  if (us < 0)
+    return 4;
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t prescaler;
-  uint32_t compare_register;
+  uint16_t compare_register;
   if (fast_samd21_tc_calculate_compare_register(us,
 						&prescaler,
 						&compare_register) == 3) {
@@ -126,7 +130,7 @@ uint8_t fast_samd21_tc4_configure(double us) {
   }
 
   // set compare register value
-  TC4->COUNT16.CC[0].reg = (uint16_t) compare_register;
+  TC4->COUNT16.CC[0].reg = compare_register;
 
   while (TC4->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 
