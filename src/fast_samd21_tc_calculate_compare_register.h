@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-19
+  Date: 2022-09-28
 
   This header file is used by 'fast_samd21_tc3.h', 'fast_samd21_tc4.h' and
   'fast_samd21_tc5.h'.
@@ -11,13 +11,13 @@
 
 static inline uint32_t
 _fast_samd21_tc_calculate_compare_register(double us,
-					  uint16_t prescaler) {
-  return (uint32_t) (us * 1e-6 *
-		     (((double) SystemCoreClock) / ((double) prescaler)));
+					   uint32_t prescaler) {
+  return (uint32_t) round(us * (SystemCoreClock / prescaler) / 1e6) - 1;
 }
+
 uint8_t fast_samd21_tc_calculate_compare_register(double us,
 						  uint16_t *prescaler,
-						  uint32_t *compare_register) {
+						  uint16_t *compare_register) {
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t _prescaler = 1;
@@ -68,10 +68,8 @@ uint8_t fast_samd21_tc_calculate_compare_register(double us,
     }
   }
   *prescaler = _prescaler;
-  *compare_register = _compare_register;
+  *compare_register = (uint16_t) _compare_register;
   return 0;
 }
-
-
 
 #endif /* fast_samd21_tc_calculate_compare_register_h */
