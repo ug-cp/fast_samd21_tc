@@ -70,12 +70,15 @@ void fast_samd21_tc3_stop() {
   1: us == 0 and this is too small
   2: us > 1398080 and this is too large
   3: no combination of prescaler and compare register value found
+  4: us < 0, but us cannot be negative
 */
 uint8_t fast_samd21_tc3_configure(double us) {
   if (((uint32_t) us) == 0)
     return 1;
   if (us > 1398080)
     return 2;
+  if (us < 0)
+    return 4;
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t prescaler;
