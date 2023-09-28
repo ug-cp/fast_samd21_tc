@@ -20,7 +20,7 @@ unittest(fast_samd21_tc_calculate_compare_register) {
 	      _fast_samd21_tc_calculate_compare_register(0.1, 1));
   assertEqual((uint32_t) 48,
 	      _fast_samd21_tc_calculate_compare_register(1, 1));
-  assertEqual((uint32_t) 479,
+  assertEqual((uint32_t) 480,
 	      _fast_samd21_tc_calculate_compare_register(10, 1));
   assertEqual((uint32_t) 144,
 	      _fast_samd21_tc_calculate_compare_register(6, 2));
