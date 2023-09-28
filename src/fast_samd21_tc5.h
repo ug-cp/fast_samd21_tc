@@ -60,7 +60,7 @@ void fast_samd21_tc5_stop() {
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
-  us has to be smaller than 1398080: 0 << us <= 1398080
+  us has to be less than or equal to 1398080: 0 << us <= 1398080
 
   You can just reconfigure by call this routine again.
 
@@ -79,7 +79,7 @@ uint8_t fast_samd21_tc5_configure(double us) {
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t prescaler;
-  uint32_t compare_register;
+  uint16_t compare_register;
   if (fast_samd21_tc_calculate_compare_register(us,
 						&prescaler,
 						&compare_register) == 3) {
@@ -126,7 +126,7 @@ uint8_t fast_samd21_tc5_configure(double us) {
   }
 
   // set compare register value
-  TC5->COUNT16.CC[0].reg = (uint16_t) compare_register;
+  TC5->COUNT16.CC[0].reg = compare_register;
 
   while (TC5->COUNT16.STATUS.reg & TC_STATUS_SYNCBUSY);
 

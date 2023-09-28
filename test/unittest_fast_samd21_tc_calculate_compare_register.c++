@@ -16,7 +16,9 @@
 unittest(fast_samd21_tc_calculate_compare_register) {
   assertEqual((uint32_t) 1,
 	      _fast_samd21_tc_calculate_compare_register(0.021, 1));
-  assertEqual((uint32_t) 4,
+  assertEqual((uint32_t) 2,
+	      _fast_samd21_tc_calculate_compare_register(0.1, 2));
+  assertEqual((uint32_t) 5,
 	      _fast_samd21_tc_calculate_compare_register(0.1, 1));
   assertEqual((uint32_t) 48,
 	      _fast_samd21_tc_calculate_compare_register(1, 1));
@@ -27,7 +29,7 @@ unittest(fast_samd21_tc_calculate_compare_register) {
   assertEqual((uint32_t) 184,
 	      _fast_samd21_tc_calculate_compare_register(23, 6));
   uint16_t prescaler;
-  uint32_t compare_register;
+  uint16_t compare_register;
   assertEqual((uint8_t) 0,
 	      fast_samd21_tc_calculate_compare_register(6,
 							&prescaler,
@@ -59,6 +61,18 @@ unittest(fast_samd21_tc_calculate_compare_register) {
   assertEqual(8, prescaler);
   assertEqual(60000, compare_register);
   assertEqual((uint8_t) 0,
+	      fast_samd21_tc_calculate_compare_register(20000UL,
+							&prescaler,
+							&compare_register));
+  assertEqual(16, prescaler);
+  assertEqual(60000, compare_register);
+  assertEqual((uint8_t) 0,
+	      fast_samd21_tc_calculate_compare_register(30000UL,
+							&prescaler,
+							&compare_register));
+  assertEqual(64, prescaler);
+  assertEqual(22500, compare_register);
+  assertEqual((uint8_t) 0,
 	      fast_samd21_tc_calculate_compare_register(100000UL,
 							&prescaler,
 							&compare_register));
@@ -72,6 +86,10 @@ unittest(fast_samd21_tc_calculate_compare_register) {
   assertEqual(65535UL, compare_register);
   assertEqual((uint8_t) 3,
 	      fast_samd21_tc_calculate_compare_register(1398102UL,
+							&prescaler,
+							&compare_register));
+  assertEqual((uint8_t) 3,
+	      fast_samd21_tc_calculate_compare_register(1e9,
 							&prescaler,
 							&compare_register));
 }
