@@ -65,7 +65,7 @@ unittest(fast_samd21_tc_calculate_compare_register) {
   assertEqual(256, prescaler);
   assertEqual(18750, compare_register);
   assertEqual((uint8_t) 0,
-	      fast_samd21_tc_calculate_compare_register(1398090UL,
+	      fast_samd21_tc_calculate_compare_register(1398080UL,
 							&prescaler,
 							&compare_register));
   assertEqual(1024, prescaler);

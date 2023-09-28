@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2022-09-19
+  Date: 2023-09-28
 
   This header file allows using the TC3_Handler routine triggered by
   the TC3 timer on SAMD21 (e. g. Arduino MKRZERO).
@@ -60,7 +60,7 @@ void fast_samd21_tc3_stop() {
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
-  us has to be smaller than 1398090: 0 << us <= 1398090
+  us has to be smaller than 1398080: 0 << us <= 1398080
 
   You can just reconfigure by call this routine again.
 
@@ -68,13 +68,13 @@ void fast_samd21_tc3_stop() {
 
   0: no error
   1: us == 0 and this is too small
-  2: us > 1398090 and this is too large
+  2: us > 1398080 and this is too large
   3: no combination of prescaler and compare register value found
 */
 uint8_t fast_samd21_tc3_configure(double us) {
   if (((uint32_t) us) == 0)
     return 1;
-  if (us > 1398090)
+  if (us > 1398080)
     return 2;
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
