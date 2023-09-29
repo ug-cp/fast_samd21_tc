@@ -138,7 +138,6 @@ uint8_t fast_samd21_tc3_configure(double us) {
   NVIC_ClearPendingIRQ(TC3_IRQn);
   NVIC_SetPriority(TC3_IRQn, 0);
   NVIC_EnableIRQ(TC3_IRQn);
-  //return 0;
 
   // enable interrupt
   TC3->COUNT16.INTENSET.bit.MC0 = 1;
