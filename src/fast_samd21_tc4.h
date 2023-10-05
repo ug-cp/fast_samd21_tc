@@ -19,6 +19,10 @@
 #ifndef fast_samd21_tc4_h
 #define fast_samd21_tc4_h
 
+#if defined(fast_samd21_tc4_tc5_h)
+  #error “TC4 counter can not be used together with TC4/TC5 32-bit counter.”
+#endif
+
 #if defined(ARDUINO_ARCH_SAMD)
 
 #include "Arduino.h"
