@@ -1,23 +1,29 @@
 ---
 author: Daniel Mohr
-date: 2023-09-29
+date: 2023-10-05
 url: https://gitlab.com/ug-cp/fast_samd21_tc
 license: BSD 3-Clause License
 ---
 
-# fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
+# fast_samd21_tc -- TC5, TC4 or TC3 timer library for SAMD21 microcontrollers
 
 [[_TOC_]]
 
 This library allows using the TC3_Handler, TC4_Handler and the TC5_Handler
-routine triggered by the Timer/Counter TC3, TC4 or TC5 on SAMD21
-(e. g. Arduino MKRZERO).
+routine triggered by the 16-bit Timer/Counter TC3, TC4 or TC5 on SAMD21
+(e. g. Arduino MKRZERO). It is also possible to use TC4 and TC5 as a
+32-bit Timer/Counter.
 
 It is possible to trigger very fast (a few microseconds, e. g. 4 us and less,
 depending on the runtime of the handler routine/function).
 You can use fraction numbers as interval (e. g. 2.5 us).
 
 Keep in mind, TC4 and TC5 are not completely independent.
+But you can use TC4 and TC5 together as a 32 bit counter.
+This 32 bit counter allows to call the interrupt with a time between calls
+up to 136 years with a given precision of up to microseconds -- of cause the
+normal clock on an Arduino has not such a precision, but at least the software
+is doing its job correct.
 
 * home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
 * mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
