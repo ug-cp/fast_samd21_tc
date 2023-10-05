@@ -79,6 +79,12 @@ For example instead of `#include <fast_samd21_tc5.h>` you could also use:
 #include <fast_samd21_tc.h>
 ```
 
+The 32-bit counter is not imported with the whole library
+`#include <fast_samd21_tc.h>`. To use the 32-bit counter you have to import
+`#include <fast_samd21_tc4_tc5.h>` and to provide the function `TC4_Handler`.
+For the 32-bit counter look at the
+[examples `blink_led_tc4_tc5.ino`](examples/blink_led_tc4_tc5/blink_led_tc4_tc5.ino).
+
 We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
 For TC3, TC4 or all look at the [examples](examples).
 
