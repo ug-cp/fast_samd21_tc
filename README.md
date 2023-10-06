@@ -1,6 +1,6 @@
 ---
 author: Daniel Mohr
-date: 2023-10-05
+date: 2023-10-06
 url: https://gitlab.com/ug-cp/fast_samd21_tc
 license: BSD 3-Clause License
 ---
@@ -19,9 +19,9 @@ depending on the runtime of the handler routine/function).
 You can use fraction numbers as interval (e. g. 2.5 us).
 
 Keep in mind, TC4 and TC5 are not completely independent.
-But you can use TC4 and TC5 together as a 32 bit counter.
-This 32 bit counter allows to call the interrupt with a time between calls
-up to 136 years with a given precision of up to microseconds -- of cause the
+But you can use TC4 and TC5 together as a 32-bit counter.
+This 32-bit counter allows to call the interrupt with a time between calls
+up to 136 years with a given precision of microseconds -- of cause the
 normal clock on an Arduino has not such a precision, but at least the software
 is doing its job correct.
 
@@ -60,6 +60,10 @@ git clone https://gitlab.com/ug-cp/fast_samd21_tc.git ~/Arduino/libraries/fast_s
 
 ## Usage
 
+You can use a 16-bit or a 32-bit Counter with this library.
+
+### 16-bit Counter
+
 You can include the whole library `#include <fast_samd21_tc.h>` and choose
 what you use.
 
@@ -88,7 +92,7 @@ For the 32-bit counter look at the
 We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
 For TC3, TC4 or all look at the [examples](examples).
 
-You have to provide the TC5_Handler routine, e. g.:
+You have to provide the `TC5_Handler` routine, e. g.:
 
 ```c
 void TC5_Handler(void) {
@@ -149,6 +153,27 @@ void loop() {
   delay(1000);
   callback = blink2;
   delay(1000);
+}
+```
+
+### 32-bit Counter
+
+The 32-bit Counter works very similar to the 16-bit one.
+But in the background the 32-bit Counter needs the 2 timers TC4 and TC5.
+The TC4 timer works as a master and you have to provide the
+`TC4_Handler` routine. Here is an example:
+
+```c
+#include <fast_samd21_tc4_tc5.h>
+void TC4_Handler(void) {
+  digitalWrite(1, !digitalRead(1));
+  TC4->COUNT32.INTFLAG.bit.MC0 = 1; // clears the interrupt
+}
+void setup() {
+  pinMode(1, OUTPUT);
+  fast_samd21_tc4_tc5_configure(12345678); // starts timer with 12.345678 s
+}
+void loop() {
 }
 ```
 

@@ -3,8 +3,8 @@
   Date: 2023-10-05
 
   This header file allows using the TC4_Handler routine triggered by
-  the TC4 timer with 32 bit on SAMD21 (e. g. Arduino MKR Zero).
-  To allow 32 bit on the TC4 timer also the TC5 timer is used.
+  the TC4 timer with 32-bit on SAMD21 (e. g. Arduino MKR Zero).
+  To allow 32-bit on the TC4 timer also the TC5 timer is used.
 
   You have to provide the TC4_Handler routine, e. g.:
 
@@ -64,7 +64,7 @@ void fast_samd21_tc4_tc5_stop() {
 }
 
 /*
-  Configures the timer interrupt TC4 as 32 bit on SAMD21.
+  Configures the timer interrupt TC4 as 32-bit on SAMD21.
 
   The parameter us is the time in 1e-6 s (= 1 us).
 
@@ -110,7 +110,7 @@ uint8_t fast_samd21_tc4_tc5_configure(double us) {
 
   fast_samd21_tc4_tc5_reset();
 
-  // set 32 bit mode and set waveform 'match frequency'
+  // set 32-bit mode and set waveform 'match frequency'
   TC4->COUNT32.CTRLA.reg |= TC_CTRLA_MODE_COUNT32 | TC_CTRLA_WAVEGEN_MFRQ;
 
   // prescaler

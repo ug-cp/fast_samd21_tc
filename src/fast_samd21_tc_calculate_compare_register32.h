@@ -4,7 +4,7 @@
 
   This header file is used by 'fast_samd21_tc4_tc5.h'.
 
-  This file calculates a compare register value and a prescaler for a 32 bit
+  This file calculates a compare register value and a prescaler for a 32-bit
   counter.
 */
 

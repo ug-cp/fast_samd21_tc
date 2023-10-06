@@ -2,7 +2,7 @@
   fast_samd21_tc4_tc5 example
 
   This is a basic example. It blinks one LED/pin with a very long perdiod.
-  It uses a 32 bit counter.
+  It uses a 32-bit counter.
 
   Author: Daniel Mohr
   Date: 2023-10-05

@@ -102,7 +102,7 @@ uint8_t fast_samd21_tc5_configure(double us) {
 
   fast_samd21_tc5_reset();
 
-  // set 16 bit mode and set waveform 'match frequency'
+  // set 16-bit mode and set waveform 'match frequency'
   TC5->COUNT16.CTRLA.reg |= TC_CTRLA_MODE_COUNT16 | TC_CTRLA_WAVEGEN_MFRQ;
 
   // prescaler
