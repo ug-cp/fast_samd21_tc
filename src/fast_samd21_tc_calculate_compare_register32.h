@@ -13,13 +13,13 @@
 
 static inline uint64_t
 _fast_samd21_tc_calculate_compare_register32(double us,
-					   uint32_t prescaler) {
+					     uint32_t prescaler) {
   return (uint64_t) round(us * (SystemCoreClock / prescaler) / 1e6) - 1;
 }
 
 uint8_t fast_samd21_tc_calculate_compare_register32(double us,
-						  uint16_t *prescaler,
-						  uint32_t *compare_register) {
+						    uint16_t *prescaler,
+						    uint32_t *compare_register) {
   // find prescaler and compare register value
   // try TC_CTRLA_PRESCALER_DIV1
   uint16_t _prescaler = 1;
