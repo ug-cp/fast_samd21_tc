@@ -278,6 +278,30 @@ and measure the period T with an oscilloscope gives something like
 | 128 | 256 | 255.89 | 255.85 | 255.96 | 0.046 |
 | 256 | 512 | 511.92 | 511.71 | 511.92 | 0.080 |
 
+Fast switching a pin (using
+[fast_blink_led_tc4_tc5.ino](examples/fast_blink_led_tc4_tc5/fast_blink_led_tc4_tc5.ino))
+using a 32-bit counter and measure the period T with an oscilloscope gives
+something like (values in 1 us = 1e-6 s or explicitly given):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1.3 | 2.6 | 2.6 | 2.58 | 2.70 | 0.033 |
+| 2 | 4 | 4.03 | 3.99 | 4.07 | 0.030 |
+| 4 | 8 | 8.02 | 7.99 | 8.03 | 0.017 |
+| 8 | 16 | 15.99 | 15.99 | 15.99 | 0.002 |
+| 16 | 32 | 31.99 | 31.99 | 32.01 | 0.007 |
+| 32 | 64 | 63.99 | 63.98 | 64.02 | 0.012 |
+| 64 | 128 | 127.94 | 127.92 | 127.96 | 0.018 |
+| 128 | 256 | 255.91 | 255.85 | 255.96 | 0.046 |
+| 256 | 512 | 512.03 | 512.02 | 512.22 | 0.028 |
+| 256 | 512 | 512.03 | 512.02 | 512.22 | 0.028 |
+| 524288 | 1048576 | 1.04 s | 1.04 s | 1.04 s | 0 s |
+| 1048576 | 2097152 | 2.09 s | 2.09 s | 2.09 s | 0 s |
+| 2097152 | 4194304 | 4.19 s | 4.19 s | 4.19 s | 0 s |
+
+The last 3 measurements are presented to show it is really a 32-bit counter.
+The precision of the measurement is only seconds.
+
 ## Examples
 
 In the folder [examples](examples) you can find some examples.
