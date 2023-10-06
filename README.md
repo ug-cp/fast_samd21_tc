@@ -1,23 +1,29 @@
 ---
 author: Daniel Mohr
-date: 2023-01-18
+date: 2023-10-06
 url: https://gitlab.com/ug-cp/fast_samd21_tc
 license: BSD 3-Clause License
 ---
 
-# fast_samd21_tc -- TC5 or TC3 timer library for SAMD21 microcontrollers
+# fast_samd21_tc -- TC5, TC4 or TC3 timer library for SAMD21 microcontrollers
 
 [[_TOC_]]
 
 This library allows using the TC3_Handler, TC4_Handler and the TC5_Handler
-routine triggered by the Timer/Counter TC3, TC4 or TC5 on SAMD21
-(e. g. Arduino MKRZERO).
+routine triggered by the 16-bit Timer/Counter TC3, TC4 or TC5 on SAMD21
+(e. g. Arduino MKRZERO). It is also possible to use TC4 and TC5 as a
+32-bit Timer/Counter.
 
 It is possible to trigger very fast (a few microseconds, e. g. 4 us and less,
 depending on the runtime of the handler routine/function).
 You can use fraction numbers as interval (e. g. 2.5 us).
 
 Keep in mind, TC4 and TC5 are not completely independent.
+But you can use TC4 and TC5 together as a 32-bit counter.
+This 32-bit counter allows to call the interrupt with a time between calls
+up to about 1 day with a given precision of up to microseconds -- of course the
+normal clock on an Arduino has not such a precision, but at least the software
+is doing its job correct.
 
 * home: [gitlab.com/ug-cp/fast_samd21_tc](https://gitlab.com/ug-cp/fast_samd21_tc)
 * mirror: [github.com/ug-cp/fast_samd21_tc](https://github.com/ug-cp/fast_samd21_tc)
@@ -54,6 +60,10 @@ git clone https://gitlab.com/ug-cp/fast_samd21_tc.git ~/Arduino/libraries/fast_s
 
 ## Usage
 
+You can use a 16-bit or a 32-bit Counter with this library.
+
+### 16-bit Counter
+
 You can include the whole library `#include <fast_samd21_tc.h>` and choose
 what you use.
 
@@ -73,10 +83,16 @@ For example instead of `#include <fast_samd21_tc5.h>` you could also use:
 #include <fast_samd21_tc.h>
 ```
 
+The 32-bit counter is not imported with the whole library
+`#include <fast_samd21_tc.h>`. To use the 32-bit counter you have to import
+`#include <fast_samd21_tc4_tc5.h>` and to provide the function `TC4_Handler`.
+For the 32-bit counter look at the
+[examples `blink_led_tc4_tc5.ino`](examples/blink_led_tc4_tc5/blink_led_tc4_tc5.ino).
+
 We will use here only the TC5 specific part `#include <fast_samd21_tc5.h>`.
 For TC3, TC4 or all look at the [examples](examples).
 
-You have to provide the TC5_Handler routine, e. g.:
+You have to provide the `TC5_Handler` routine, e. g.:
 
 ```c
 void TC5_Handler(void) {
@@ -140,6 +156,27 @@ void loop() {
 }
 ```
 
+### 32-bit Counter
+
+The 32-bit Counter works very similar to the 16-bit one.
+But in the background the 32-bit Counter needs the 2 timers TC4 and TC5.
+The TC4 timer works as a master and you have to provide the
+`TC4_Handler` routine. Here is an example:
+
+```c
+#include <fast_samd21_tc4_tc5.h>
+void TC4_Handler(void) {
+  digitalWrite(1, !digitalRead(1));
+  TC4->COUNT32.INTFLAG.bit.MC0 = 1; // clears the interrupt
+}
+void setup() {
+  pinMode(1, OUTPUT);
+  fast_samd21_tc4_tc5_configure(12345678); // starts timer with 12.345678 s
+}
+void loop() {
+}
+```
+
 ## Tested
 
 It was tested on SAMD21 (Arduino MKR1000, Arduino MKR Zero and
@@ -153,14 +190,14 @@ and measure the period T with an oscilloscope gives something like
 
 | set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 2 | 4 | 8.12 | 8.07 | 8.14 | 0.024 |
-| 4 | 8 | 8.1 | 8.03 | 8.11 | 0.032 |
-| 8 | 16 | 16.07 | 16.03 | 16.15 | 0.049 |
-| 16 | 32 | 32.02 | 31.97 | 32.17 | 0.011 |
-| 32 | 64 | 64.02 | 64.00 | 64.04 | 0.035 |
-| 64 | 128 | 128.01 | 127.35 | 128.06 | 0.090 |
-| 128 | 256 | 256.05 | 255.95 | 256.05 | 0.0023 |
-| 256 | 512 | 511.9 | 511.80 | 512.00 | 0.144 |
+| 2 | 4 | 8.04 | 7.99 | 8.05 | 0.024 |
+| 4 | 8 | 8.06 | 7.99 | 8.08 | 0.030 |
+| 8 | 16 | 16.02 | 15.99 | 16.15 | 0.053 |
+| 16 | 32 | 31.98 | 31.98 | 32.04 | 0.006 |
+| 32 | 64 | 63.98 | 63.98 | 64.04 | 0.012 |
+| 64 | 128 | 127.96 | 127.87 | 127.96 | 0.007 |
+| 128 | 256 | 255.87 | 255.75 | 255.96 | 0.023 |
+| 256 | 512 | 511.85 | 511.71 | 511.92 | 0.038 |
 
 So, we can really fast blink with a period of 8 us = 8e-6 s (125 kHz).
 This is an interrupt every 4 us = 4e-6 s (250 kHz).
@@ -176,13 +213,13 @@ and measure the period T with an oscilloscope gives something like
 
 | set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 4 | 8 | 8.73 | 8.66 | 8.78 | 0.032 |
-| 8 | 16 | 16.69 | 16.66 | 16.91 | 0.063 |
-| 16 | 32 | 32.65 | 32.65 | 32.79 | 0.015 |
-| 32 | 64 | 64.67 | 64.65 | 64.67 | 0.013 |
-| 64 | 128 | 128.65 | 128.64 | 128.68 | 0.008 |
-| 128 | 256 | 256.52 | 256.45 | 256.55 | 0.043 |
-| 256 | 512 | 512.64 | 512.50 | 512.70 | 0.153 |
+| 4 | 8 | 8.05 | 7.99 | 8.07 | 0.036 |
+| 8 | 16 | 16.00 | 15.98 | 16.15 | 0.037 |
+| 16 | 32 | 31.98 | 31.98 | 31.99 | 0.003 |
+| 32 | 64 | 63.98 | 63.98 | 64.02 | 0.012 |
+| 64 | 128 | 127.95 | 127.92 | 127.96 | 0.016 |
+| 128 | 256 | 255.96 | 255.96 | 255.96 | 0.010 |
+| 256 | 512 | 511.76 | 511.71 | 511.92 | 0.056 |
 
 Sorry, I do not know why this measurement is not as good as for TC5.
 
@@ -197,15 +234,15 @@ and measure the period T with an oscilloscope gives something like
 
 | set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 1 | 2 | 2.69 | 2.66 | 2.83 | 0.054 |
-| 2 | 4 | 4.68 | 4.65 | 4.85 | 0.060 |
-| 4 | 8 | 8.67 | 8.65 | 9.02 | 0.097 |
-| 8 | 16 | 16.66 | 16.66 | 16.57 | 0.003 |
-| 16 | 32 | 32.63 | 32.01 | 32.91 | 0.165 |
-| 32 | 64 | 64.64 | 64.46 | 64.66 | 0.014 |
-| 64 | 128 | 128.64 | 128.60 | 128.70 | 0.023 |
-| 128 | 256 | 256.6 | 256.55 | 256.65 | 0.222 |
-| 256 | 512 | 512.45 | 512.45 | 512.63 | 0.033 |
+| 1.3 | 2.6 | 2.6 | 2.58 | 2.66 | 0.030 |
+| 2 | 4 | 4.01 | 3.99 | 4.04 | 0.022 |
+| 4 | 8 | 8.02 | 7.99 | 8.07 | 0.016 |
+| 8 | 16 | 15.99 | 15.99 | 15.99 | 0.006 |
+| 16 | 32 | 31.98 | 31.98 | 31.99 | 0.003 |
+| 32 | 64 | 63.96 | 63.93 | 63.96 | 0.005 |
+| 64 | 128 | 127.92 | 127.92 | 127.96 | 0.010 |
+| 128 | 256 | 255.96 | 255.96 | 256.06 | 0.020 |
+| 256 | 512 | 511.87 | 511.71 | 511.92 | 0.054 |
 
 Fast switching a pin (using
 [fast_blink_led_tc4.ino](examples/fast_blink_led_tc4/fast_blink_led_tc4.ino))
@@ -214,15 +251,15 @@ and measure the period T with an oscilloscope gives something like
 
 | set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 1 | 2 | 4.13 | 3.93 | 5.10 | 0.202 |
-| 2 | 4 | 4.04 | 4.03 | 4.04 | 0.004 |
-| 4 | 8 | 8.06 | 8.03 | 8.18 | 0.051 |
-| 8 | 16 | 16.03 | 16.02 | 16.03 | 0.002 |
-| 16 | 32 | 32.02 | 31.95 | 32.03 | 0.011 |
-| 32 | 64 | 64.05 | 64.04 | 64.05 | 0.015 |
-| 64 | 128 | 128 | 127.97 | 128.04 | 0.019 |
-| 128 | 256 | 255.96 | 255.95 | 256.04 | 0.017 |
-| 256 | 512 | 511.92 | 511.91 | 512.08 | 0.028 |
+| 1.3 | 2.6 | 2.6 | 2.58 | 2.67 | 0.040 |
+| 2 | 4 | 4.01 | 3.99 | 4.06 | 0.025 |
+| 4 | 8 | 8.03 | 7.99 | 8.04 | 0.015 |
+| 8 | 16 | 15.99 | 15.99 | 15.99 | 0.001 |
+| 16 | 32 | 31.98 | 31.98 | 31.99 | 0.003 |
+| 32 | 64 | 63.96 | 63.91 | 64.00 | 0.007 |
+| 64 | 128 | 127.92 | 127.92 | 127.96 | 0.010 |
+| 128 | 256 | 255.92 | 255.85 | 255.96 | 0.050 |
+| 256 | 512 | 511.77 | 511.71 | 511.92 | 0.060 |
 
 Fast switching a pin (using
 [fast_blink_led_tc5.ino](examples/fast_blink_led_tc5/fast_blink_led_tc5.ino))
@@ -231,15 +268,39 @@ and measure the period T with an oscilloscope gives something like
 
 | set interval | expected T | mean T | min. T | max. T | std T |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| 1 | 2 | 4.1 | 4.07 | 4.27 | 0.052 |
-| 2 | 4 | 4.05 | 4.03 | 4.26 | 0.054 |
-| 4 | 8 | 8.06 | 8.03 | 8.34 | 0.084 |
-| 8 | 16 | 16.03 | 16.03 | 16.04 | 0.015 |
-| 16 | 32 | 32.03 | 32.02 | 32.03 | 0.003 |
-| 32 | 64 | 64.0 | 63.98 | 64.01 | 0.008 |
-| 64 | 128 | 127.98 | 127.89 | 128.02 | 0.021 |
-| 128 | 256 | 255.93 | 255.87 | 255.93 | 0.032 |
-| 256 | 512 | 511.89 | 511.74 | 511.91 | 0.047 |
+| 1.3 | 2.6 | 2.6 | 2.58 | 2.68 | 0.035 |
+| 2 | 4 | 4.01 | 3.99 | 4.06 | 0.025 |
+| 4 | 8 | 8.02 | 7.99 | 8.03 | 0.017 |
+| 8 | 16 | 15.99 | 15.99 | 15.99 | 0.002 |
+| 16 | 32 | 31.99 | 31.99 | 32.04 | 0.006 |
+| 32 | 64 | 63.96 | 63.96 | 63.98 | 0.005 |
+| 64 | 128 | 127.97 | 127.92 | 128.00 | 0.018 |
+| 128 | 256 | 255.89 | 255.85 | 255.96 | 0.046 |
+| 256 | 512 | 511.92 | 511.71 | 511.92 | 0.080 |
+
+Fast switching a pin (using
+[fast_blink_led_tc4_tc5.ino](examples/fast_blink_led_tc4_tc5/fast_blink_led_tc4_tc5.ino))
+using a 32-bit counter and measure the period T with an oscilloscope gives
+something like (values in 1 us = 1e-6 s or explicitly given):
+
+| set interval | expected T | mean T | min. T | max. T | std T |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| 1.3 | 2.6 | 2.6 | 2.58 | 2.70 | 0.033 |
+| 2 | 4 | 4.03 | 3.99 | 4.07 | 0.030 |
+| 4 | 8 | 8.02 | 7.99 | 8.03 | 0.017 |
+| 8 | 16 | 15.99 | 15.99 | 15.99 | 0.002 |
+| 16 | 32 | 31.99 | 31.99 | 32.01 | 0.007 |
+| 32 | 64 | 63.99 | 63.98 | 64.02 | 0.012 |
+| 64 | 128 | 127.94 | 127.92 | 127.96 | 0.018 |
+| 128 | 256 | 255.91 | 255.85 | 255.96 | 0.046 |
+| 256 | 512 | 512.03 | 512.02 | 512.22 | 0.028 |
+| 256 | 512 | 512.03 | 512.02 | 512.22 | 0.028 |
+| 524288 | 1048576 | 1.04 s | 1.04 s | 1.04 s | 0 s |
+| 1048576 | 2097152 | 2.09 s | 2.09 s | 2.09 s | 0 s |
+| 2097152 | 4194304 | 4.19 s | 4.19 s | 4.19 s | 0 s |
+
+The last 3 measurements are presented to show it is really a 32-bit counter.
+The precision of the measurement is only seconds.
 
 ## Examples
 

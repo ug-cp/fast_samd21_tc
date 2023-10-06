@@ -19,6 +19,10 @@
 #ifndef fast_samd21_tc5_h
 #define fast_samd21_tc5_h
 
+#if defined(fast_samd21_tc4_tc5_h)
+  #error “TC5 counter can not be used together with TC4/TC5 32-bit counter.”
+#endif
+
 #if defined(ARDUINO_ARCH_SAMD)
 
 #include "Arduino.h"
@@ -98,7 +102,7 @@ uint8_t fast_samd21_tc5_configure(double us) {
 
   fast_samd21_tc5_reset();
 
-  // set 16 bit mode and set waveform 'match frequency'
+  // set 16-bit mode and set waveform 'match frequency'
   TC5->COUNT16.CTRLA.reg |= TC_CTRLA_MODE_COUNT16 | TC_CTRLA_WAVEGEN_MFRQ;
 
   // prescaler
