@@ -21,7 +21,7 @@ You can use fraction numbers as interval (e. g. 2.5 us).
 Keep in mind, TC4 and TC5 are not completely independent.
 But you can use TC4 and TC5 together as a 32-bit counter.
 This 32-bit counter allows to call the interrupt with a time between calls
-up to 136 years with a given precision of microseconds -- of cause the
+up to about 1 day with a given precision of up to microseconds -- of course the
 normal clock on an Arduino has not such a precision, but at least the software
 is doing its job correct.
 

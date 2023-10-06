@@ -1,6 +1,6 @@
 /*
   Author: Daniel Mohr
-  Date: 2023-10-05
+  Date: 2023-10-06
 
   This header file allows using the TC4_Handler routine triggered by
   the TC4 timer with 32-bit on SAMD21 (e. g. Arduino MKR Zero).
@@ -69,7 +69,7 @@ void fast_samd21_tc4_tc5_stop() {
   The parameter us is the time in 1e-6 s (= 1 us).
 
   us has to be less than or equal to 91625968960: 0 << us <= 91625968960
-  91625968960 us are more than 136 years.
+  91625968960 us are more than 1 day.
 
   You can just reconfigure by call this routine again.
 
