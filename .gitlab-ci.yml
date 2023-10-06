@@ -125,4 +125,5 @@ deploy_to_repo:
     - apk add --no-cache git
     - repopath=$(mktemp -d)
     - git clone --bare --mirror ${CI_REPOSITORY_URL} $repopath
+    - (cd $repopath && git for-each-ref --format 'delete %(refname)' refs/merge-requests | tee >(git update-ref --stdin))
     - (cd $repopath && git push --prune --mirror $backup_repo)
