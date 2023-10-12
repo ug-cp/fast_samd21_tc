@@ -147,7 +147,7 @@ uint8_t fast_samd21_tc3_configure(double us) {
 }
 
 #else
-  #error “This library only supports boards with a SAMD processor.”
+  #error "This library only supports boards with a SAMD processor."
 #endif
 
 #endif /* fast_samd21_tc3_h */

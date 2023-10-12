@@ -20,11 +20,11 @@
 #define fast_samd21_tc4_tc5_h
 
 #if defined(fast_samd21_tc4_h)
-  #error “TC4/TC5 32-bit counter can not be used together with TC4 counter.”
+  #error "TC4/TC5 32-bit counter can not be used together with TC4 counter."
 #endif
 
 #if defined(fast_samd21_tc5_h)
-  #error “TC4/TC5 32-bit counter can not be used together with TC5 counter.”
+  #error "TC4/TC5 32-bit counter can not be used together with TC5 counter."
 #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
@@ -159,7 +159,7 @@ uint8_t fast_samd21_tc4_tc5_configure(double us) {
 }
 
 #else
-  #error “This library only supports boards with a SAMD processor.”
+  #error "This library only supports boards with a SAMD processor."
 #endif
 
 #endif /* fast_samd21_tc4_tc5_h */
