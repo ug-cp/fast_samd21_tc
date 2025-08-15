@@ -22,7 +22,7 @@ repos:
       - id: yaml2script-check
         additional_dependencies:
           - shellcheck-py
-        args: [.gitlab-ci.yml, variables, stages, .display_env, pre-commit, cppcheck, arduino-lint, arduino_ci, prepare_release, release_job, trigger_deploy2zenodo]
+        args: [.gitlab-ci.yml, variables, stages, .display_env, pre-commit, cppcheck, arduino-lint, arduino_ci, prepare_release, release_job]
       - id: yaml2script-check
         name: yaml2script check -parameter_check_command=-e SC2154
         additional_dependencies:

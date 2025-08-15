@@ -34,7 +34,7 @@ cppcheck:
     - date
     # install necessary packages:
     - apk add --no-cache cppcheck
-    - find . \( -iname "*.ino" -o -iname "*.c++" -o -iname "*.h" \) -print0 | xargs -0 cppcheck --suppress="*:test/*" --enable=warning,performance,portability,information --error-exitcode=1
+    - find . \( -iname "*.ino" -o -iname "*.c++" -o -iname "*.h" \) -print0 | xargs -0 cppcheck --suppress="*:test/*" --suppress=missingIncludeSystem --suppress=missingInclude --enable=warning,performance,portability,information --error-exitcode=1 --check-level=exhaustive
 
 arduino-lint:
   stage: check_coding_style
