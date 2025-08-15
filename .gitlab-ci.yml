@@ -8,18 +8,22 @@ stages:
   - release
   - deploy
 
+.display_env:
+  before_script:
+    - date
+    - uname -a
+    - cat /etc/os-release
+
 pre-commit:
   stage: check_coding_style
   image:
     # https://hub.docker.com/_/alpine
     name: alpine:latest
+  extends: .display_env
   script:
-    - date
-    # install necessary packages:
-    - apk add --no-cache bash gcc git libc-dev npm py3-pip python3-dev
-    - pip3 install pre-commit
+    - apk add --no-cache git npm pre-commit
     - pre-commit --version
-    - pre-commit run --all-files
+    - pre-commit run --all-files --show-diff-on-failure
 
 cppcheck:
   stage: check_coding_style
@@ -30,7 +34,7 @@ cppcheck:
     - date
     # install necessary packages:
     - apk add --no-cache cppcheck
-    - cppcheck --suppress="*:test/*" --enable=warning,performance,portability,information --error-exitcode=1 $(find -iname "*.ino")  $(find -iname "*.c++") $(find -iname "*.h")
+    - find . \( -iname "*.ino" -o -iname "*.c++" -o -iname "*.h" \) -print0 | xargs -0 cppcheck --suppress="*:test/*" --enable=warning,performance,portability,information --error-exitcode=1
 
 arduino-lint:
   stage: check_coding_style
@@ -116,10 +120,10 @@ deploy_to_github:
     - apk add --no-cache git openssh
     - mkdir ~/.ssh && chmod 700 ~/.ssh
     - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-    - mv $github_deploy_key ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+    - mv "$github_deploy_key" ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     - repopath=$(mktemp -d)
-    - git clone --bare --mirror ${CI_REPOSITORY_URL} $repopath
-    - (cd $repopath && git push --prune --mirror git@github.com:ug-cp/fast_samd21_tc.git)
+    - git clone --bare --mirror "${CI_REPOSITORY_URL}" "$repopath"
+    - (cd "$repopath" && git push --prune --mirror git@github.com:ug-cp/fast_samd21_tc.git)
 
 deploy_to_repo:
   stage: deploy
@@ -135,7 +139,7 @@ deploy_to_repo:
     - date
     - apk add --no-cache git
     - repopath=$(mktemp -d)
-    - git clone --bare --mirror ${CI_REPOSITORY_URL} $repopath
-    - (cd $repopath && git for-each-ref --format 'delete %(refname)' refs/merge-requests | tee >(git update-ref --stdin))
-    - (cd $repopath && git for-each-ref --format 'delete %(refname)' refs/pipelines | tee >(git update-ref --stdin))
-    - (cd $repopath && git push --prune --mirror $backup_repo)
+    - git clone --bare --mirror "${CI_REPOSITORY_URL}" "$repopath"
+    - (cd "$repopath" && git for-each-ref --format 'delete %(refname)' refs/merge-requests | tee >(git update-ref --stdin))
+    - (cd "$repopath" && git for-each-ref --format 'delete %(refname)' refs/pipelines | tee >(git update-ref --stdin))
+    - (cd "$repopath" && git push --prune --mirror "$backup_repo")

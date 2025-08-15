@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       # https://pre-commit.com/hooks.html
       - id: check-added-large-files
@@ -12,8 +12,24 @@ repos:
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
-
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.37.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
+  - repo: https://gitlab.com/yaml2script/yaml2script
+    rev: 0.2.1
+    hooks:
+      - id: yaml2script-check
+        additional_dependencies:
+          - shellcheck-py
+        args: [.gitlab-ci.yml, variables, stages, .display_env, pre-commit, cppcheck, arduino-lint, arduino_ci, prepare_release, release_job, trigger_deploy2zenodo]
+      - id: yaml2script-check
+        name: yaml2script check -parameter_check_command=-e SC2154
+        additional_dependencies:
+          - shellcheck-py
+        args: [-parameter_check_command=-e SC2154, .gitlab-ci.yml, deploy_to_github]
+      - id: yaml2script-check
+        name: yaml2script check -parameter_check_command=-e SC2154 --shell=bash
+        additional_dependencies:
+          - shellcheck-py
+        args: [-parameter_check_command=-e SC2154 --shell=bash, .gitlab-ci.yml, deploy_to_repo]
