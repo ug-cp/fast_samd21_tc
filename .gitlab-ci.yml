@@ -32,9 +32,8 @@ cppcheck:
   image:
     # https://hub.docker.com/_/alpine
     name: alpine:latest
+  extends: .display_env
   script:
-    - date
-    # install necessary packages:
     - apk add --no-cache cppcheck
     - find . \( -iname "*.ino" -o -iname "*.c++" -o -iname "*.h" \) -print0 | xargs -0 cppcheck --suppress="*:test/*" --suppress=missingIncludeSystem --suppress=missingInclude --enable=warning,performance,portability,information --error-exitcode=1 --check-level=exhaustive
 
@@ -43,8 +42,8 @@ arduino-lint:
   image:
     # https://hub.docker.com/_/debian
     name: debian:latest
+  extends: .display_env
   script:
-    - date
     - apt-get update
     - $APT_GET_INSTALL curl ca-certificates
     - (cd && curl -fsSL https://raw.githubusercontent.com/arduino/arduino-lint/main/etc/install.sh | sh)
@@ -56,8 +55,8 @@ arduino_ci:
   image:
     # https://hub.docker.com/_/debian
     name: debian:latest
+  extends: .display_env
   script:
-    - date
     - apt-get update
     - $APT_GET_INSTALL ruby build-essential
     - gem install bundler arduino_ci
@@ -74,8 +73,8 @@ prepare_release:
   image:
     # https://hub.docker.com/_/alpine
     name: alpine:latest
+  extends: .display_env
   script:
-    - date
     - cat library.properties
     - echo "EXTRA_DESCRIPTION=$(grep sentence library.properties | cut -d "=" -f 2) $(grep paragraph library.properties | cut -d '=' -f 2)" > variables.env
     - echo "TAG=$(grep version library.properties | cut -d "=" -f 2)" >> variables.env
