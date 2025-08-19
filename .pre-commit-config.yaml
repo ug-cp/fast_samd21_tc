@@ -19,17 +19,6 @@ repos:
   - repo: https://gitlab.com/yaml2script/yaml2script
     rev: 0.2.1
     hooks:
-      - id: yaml2script-check
+      - id: yaml2script-all
         additional_dependencies:
           - shellcheck-py
-        args: [.gitlab-ci.yml, variables, stages, .display_env, pre-commit, cppcheck, arduino-lint, arduino_ci, prepare_release, release_job, trigger_deploy2zenodo]
-      - id: yaml2script-check
-        name: yaml2script check -parameter_check_command=-e SC2154
-        additional_dependencies:
-          - shellcheck-py
-        args: [-parameter_check_command=-e SC2154, .gitlab-ci.yml, deploy_to_github]
-      - id: yaml2script-check
-        name: yaml2script check -parameter_check_command=-e SC2154 --shell=bash
-        additional_dependencies:
-          - shellcheck-py
-        args: [-parameter_check_command=-e SC2154 --shell=bash, .gitlab-ci.yml, deploy_to_repo]
