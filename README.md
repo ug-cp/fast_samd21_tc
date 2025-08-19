@@ -1,8 +1,11 @@
 ---
 author: Daniel Mohr
-date: 2023-10-06
+date: 2025-08-19
 url: https://gitlab.com/ug-cp/fast_samd21_tc
+mirror: https://github.com/ug-cp/fast_samd21_tc
+Arduino Library Manager: https://www.arduino.cc/reference/en/libraries/fast_samd21_tc/
 license: BSD 3-Clause License
+doi: https://doi.org/10.5281/zenodo.16880701
 ---
 
 # fast_samd21_tc -- TC5, TC4 or TC3 timer library for SAMD21 microcontrollers
@@ -308,9 +311,9 @@ In the folder [examples](examples) you can find some examples.
 
 ## License, Copyright: BSD 3-Clause License
 
-Copyright (c) 2022, 2023 Daniel Mohr and
-                         University of Greifswald, Institute of Physics,
-                         Colloidal (dusty) plasma group
+Copyright (c) 2022-2025 Daniel Mohr and
+                        University of Greifswald, Institute of Physics,
+                        Colloidal (dusty) plasma group
 
 All rights reserved.
 
